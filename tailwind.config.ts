@@ -44,6 +44,39 @@ const config: Config = {
         piecesBlack: {
           custom: '#B7C0D8',
         },
+        ashViolet: {
+          custom: '#9593A4',
+        },
+        majesticMist: {
+          custom: '#9CA1B3',
+        },
+        naturallyCalm: {
+          custom: '#CFD1DA',
+        },
+        nyctophileBlue: {
+          custom: '#080E2C',
+        },
+        woodBark: {
+          custom: '#302621',
+        },
+        antarcticDeep: {
+          custom: '#3A3C42',
+        },
+        blackout: {
+          custom: '#242121',
+        },
+        carbon: {
+          custom: '#333333',
+        },
+        chillyWhite: {
+          custom: '#ECF4F1',
+        },
+        smokedPurple: {
+          custom: '#444251',
+        },
+        midnightBadger: {
+          custom: '#575965',
+        },
       },
       gridTemplateRows: {
         '8': 'repeat(8, minmax(0, 1fr))',

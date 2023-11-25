@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import PawnBlack from "./ui/chess_pieces/black/Pawn";
 
 const range = (n: number) => [...Array(n).keys()];
 const getBoardSquares = () : JSX.Element[] => {
@@ -10,14 +10,14 @@ const getBoardSquares = () : JSX.Element[] => {
 
     switch(start%2===0) {
       case true:
-        classes = 'aspect-square col-span-1 row-span-1 bg-piecesBlack-custom';
+        classes = 'aspect-square col-span-1 row-span-1 bg-piecesBlack-custom flex justify-center items-center';
         break;
       case false: 
-        classes = 'aspect-square col-span-1 row-span-1 bg-piecesWhite-custom';
+        classes = 'aspect-square col-span-1 row-span-1 bg-piecesWhite-custom flex justify-center items-center';
         break;
     };
 
-    result.push(<p className={ classes } key={ `i:${i};j:${j}` }></p>);
+    result.push(<p className={ classes } key={ `i:${i};j:${j}` }> <PawnBlack /> </p>);
   }));
 
   return result;
@@ -26,7 +26,7 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 
 export default function Home() {
   return (
-    <main className='aspect-square w-full h- md:h-full max-w-[607px] max-h-[640px]'>
+    <main className='aspect-square w-full md:max-w-[607px] md:max-h-[640px]'>
       <section className='w-full rounded-md bg-white p-3 grid grid-cols-12 grid-rows-12 gap-0'>
         <div className='grid grid-cols-1 grid-rows-8 col-span-1 row-span-11 gap-0'>
           {
