@@ -1,15 +1,8 @@
 import PawnBlack from "./ui/chess_pieces/black/Pawn";
 import { range } from "./lib/utils";
 
-
-//const range = (n: number) => [...Array(n).keys()];
-
 const getBoardSquares = () : JSX.Element[] => {
   const result : JSX.Element[] = [];
-
-  console.log(
-    range(8,1).map(i => {range(8,1).map(j => [i,j])})
-  );
 
   range(8).forEach(i => range(8).forEach(j => {
     const start = (i+1) % 2 === 0 ? j+0 : j+1;
