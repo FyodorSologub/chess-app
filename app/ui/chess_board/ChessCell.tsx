@@ -1,4 +1,5 @@
 import { twMerge } from 'tailwind-merge'
+import { Cell } from '@/app/lib/interfaces';
 
 enum CellBgColor {
   Light = 'bg-piecesLight-custom',
@@ -18,19 +19,14 @@ const getCellBgColor: CellBgColorFunc = (xCor, yCor) => {
     };
 };
 
-interface Cell {
-  readonly xCor: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-  readonly yCor: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
-};
-
-const ChessCell = (props: Cell) : JSX.Element => {
+const ChessCell = (xCor: Cell['xCor'], yCor: Cell['yCor']) : JSX.Element => {
   const className = twMerge(
     'aspect-square col-span-1 row-span-1 flex justify-center items-center',
-    getCellBgColor(props.xCor, props.yCor)
+    getCellBgColor(xCor, yCor)
   );
 
   return (
-    <p className={ className } key={ `${props.xCor}:${props.yCor}` }></p>
+    <p className={ className } key={ `${xCor}:${yCor}` }></p>
   );
 };
 

@@ -1,8 +1,15 @@
 import PawnBlack from "./ui/chess_pieces/black/Pawn";
+import { range } from "./lib/utils";
 
-const range = (n: number) => [...Array(n).keys()];
+
+//const range = (n: number) => [...Array(n).keys()];
+
 const getBoardSquares = () : JSX.Element[] => {
   const result : JSX.Element[] = [];
+
+  console.log(
+    range(8,1).map(i => {range(8,1).map(j => [i,j])})
+  );
 
   range(8).forEach(i => range(8).forEach(j => {
     const start = (i+1) % 2 === 0 ? j+0 : j+1;
@@ -26,7 +33,7 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 
 export default function Home() {
   return (
-    <main className='aspect-square w-full md:max-w-[607px] md:max-h-[640px]'>
+    <main className='w-full h-full md:container'>
       <section className='w-full rounded-md bg-white p-3 grid grid-cols-12 grid-rows-12 gap-0'>
         <div className='grid grid-cols-1 grid-rows-8 col-span-1 row-span-11 gap-0'>
           {
