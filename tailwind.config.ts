@@ -38,10 +38,10 @@ const config: Config = {
         velvetBlack: {
           custom: '#2C2627',
         },
-        piecesWhite: {
+        piecesLight: {
           custom: '#F4F7FA',
         },
-        piecesBlack: {
+        piecesDark: {
           custom: '#B7C0D8',
         },
         ashViolet: {
