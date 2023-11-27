@@ -3,7 +3,8 @@
 import { twMerge } from 'tailwind-merge'
 import { CellXCor, CellYCor, Cell } from '@/app/lib/interfaces';
 import { alphabet } from '@/app/lib/constants';
-import { useState } from "react";
+import { useAppSelector, dispatch_ } from '@/app/redux/store';
+import { hover, unhover } from '@/app/redux/slices/chess-board-slice';
 
 enum CellBgColor {
   Light = 'bg-piecesLight-custom',
@@ -24,7 +25,11 @@ const getCellBgColor: CellBgColorFunc = (xCor, yCor) => {
 };
 
 const ChessCell = ({ xCor, yCor, ...rest }: { xCor: CellXCor; yCor: CellYCor } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
-  const [isHovered, setHovered] = useState(false);
+  const isHovered = useAppSelector(state => state.chessBoardReducer.cells[`${yCor}${xCor}`].isHovered);
+  const dispatch = dispatch_();
+
+  const handleHover = () => dispatch(hover({ xCor, yCor, }));
+  const handleUnhover = () => dispatch(unhover({ xCor, yCor, }));
 
   const className = twMerge(
     'relative aspect-square col-span-1 row-span-1 flex justify-center items-center p-1',
@@ -46,7 +51,7 @@ const ChessCell = ({ xCor, yCor, ...rest }: { xCor: CellXCor; yCor: CellYCor } &
   return (
     <p 
       className={ className } 
-      onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} 
+      onMouseEnter={ handleHover } onMouseLeave={ handleUnhover } 
     >
       <span className={span1Classes}>{ yCor }</span>
       <span className={span2Classes}>{ xCor }</span>

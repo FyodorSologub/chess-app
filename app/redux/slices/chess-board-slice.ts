@@ -26,7 +26,7 @@ const unhoverCell = (state : InitialState, action: PayloadAction<Cell>) : void =
     state.files[action.payload.yCor]['isHovered'] = false;
 };
 
-export const chessBoard = createSlice({
+export const chessBoardReducer = createSlice({
     name: 'chessBoard',
     initialState: initialState,
     reducers: {
@@ -35,5 +35,5 @@ export const chessBoard = createSlice({
     },
 });
 
-export const { hover, unhover } = chessBoard.actions;
-export default chessBoard.reducer;
+export const { hover, unhover } = chessBoardReducer.actions;
+export default chessBoardReducer.reducer;
