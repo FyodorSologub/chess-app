@@ -20,15 +20,15 @@ const chessCells: JSX.Element[] = Object.entries(cells).map(([key, value]) => {
 
 const ChessBoard = () : JSX.Element => {
   return (
-    <section className='aspect-square w-full md:max-w-[607px] md:max-h-[640px] rounded-md bg-white p-3 grid grid-cols-12 grid-rows-12 gap-0'>
+    <section className='aspect-square w-full h-full md:max-w-[640px] md:max-h-[640px] rounded-md bg-white p-3 grid grid-cols-12 grid-rows-12 gap-0'>
         <div className='grid grid-cols-1 grid-rows-8 col-span-1 row-span-11 gap-0'>
-          { boardFiles }
+          { boardRanks }
         </div>
         <div className='aspect-square col-span-11 row-span-11 grid grid-cols-8 grid-rows-8 gap-0'>
           { chessCells }
         </div>
         <div className='col-span-full col-start-2 row-span-1 grid grid-cols-8 grid-rows-1 gap-0'>
-          { boardRanks }
+          { boardFiles }
         </div>
     </section>
   );

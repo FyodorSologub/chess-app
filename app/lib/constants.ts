@@ -1,5 +1,7 @@
 import { CellXCor, CellYCor, Cells, Ranks, Files } from "./interfaces";
 
+const alphabet : readonly string[] = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+
 const ranks: Ranks = Object.fromEntries(
     Array.from({ length: 8 }, (_, index) => [String(index + 1) as CellXCor, { isHovered: false }])
 ) as Ranks;
@@ -17,4 +19,4 @@ const cells: Cells = Object.fromEntries(
     ).flat()
 ) as Cells;
 
-export { ranks, files, cells };
+export { alphabet, ranks, files, cells };
