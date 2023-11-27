@@ -1,30 +1,34 @@
-// utils
-import { range } from '@/app/lib/utils';
+// constants
+import { files, ranks, cells } from "../lib/constants";
+
+// interfeces and types
+import { CellXCor, CellYCor } from '@/app/lib/interfaces';
 
 // components
-import BoardFile from "../ui/chess_board/BoardRank";
-import BoardRank from "../ui/chess_board/BoardFile";
+import BoardFile from "../ui/chess_board/BoardFile";
+import BoardRank from "../ui/chess_board/BoardRank";
 import ChessCell from "../ui/chess_board/ChessCell";
 
+// arrays of Jsx elements
+const boardRanks: JSX.Element[] = Object.entries(ranks).map(([xCor, value]) => <BoardRank key={xCor} xCor={xCor as CellXCor} />);
+const boardFiles: JSX.Element[] = Object.entries(files).map(([yCor, value]) => <BoardFile key={yCor} yCor={yCor as CellYCor} />);
+const chessCells: JSX.Element[] = Object.entries(cells).map(([key, value]) => {
+  const [yCor, xCor] = key.split('') as [CellYCor, CellXCor];
+  return <ChessCell key={key} xCor={xCor} yCor={yCor} />;
+});
 
 
 const ChessBoard = () : JSX.Element => {
   return (
     <section className='aspect-square w-full md:max-w-[607px] md:max-h-[640px] rounded-md bg-white p-3 grid grid-cols-12 grid-rows-12 gap-0'>
         <div className='grid grid-cols-1 grid-rows-8 col-span-1 row-span-11 gap-0'>
-          {
-            //range(8).reverse().map(i => <p className='flex justify-center items-center text-velvetBlack-custom antialiased font-thin col-span-1 row-span-1' key={ i+1 }>{ i+1 }</p>)
-          }
+          { boardFiles }
         </div>
         <div className='aspect-square col-span-11 row-span-11 grid grid-cols-8 grid-rows-8 gap-0'>
-          {
-            //getBoardSquares()
-          }
+          { chessCells }
         </div>
         <div className='col-span-full col-start-2 row-span-1 grid grid-cols-8 grid-rows-1 gap-0'>
-          {
-            //range(8).map(i => <p className='flex justify-center items-center text-velvetBlack-custom antialiased font-thin col-span-1 row-span-1' key={ i }>{ alphabet[i] }</p>)
-          }
+          { boardRanks }
         </div>
     </section>
   );

@@ -1,5 +1,5 @@
 import { twMerge } from 'tailwind-merge'
-import { Cell } from '@/app/lib/interfaces';
+import { CellXCor, CellYCor, Cell } from '@/app/lib/interfaces';
 
 enum CellBgColor {
   Light = 'bg-piecesLight-custom',
@@ -9,7 +9,8 @@ enum CellBgColor {
 type CellBgColorFunc = (xCor : Cell['xCor'], yCor : Cell['yCor']) => CellBgColor.Light | CellBgColor.Dark;
 
 const getCellBgColor: CellBgColorFunc = (xCor, yCor) => {
-  const start = (xCor+1) % 2 === 0 ? yCor+0 : yCor+1;
+  const alphabet : readonly string[] = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+  const start = (Number(xCor)) % 2 === 0 ? alphabet.indexOf(yCor)+0 : alphabet.indexOf(yCor)+1;
 
   switch(start%2===0) {
     case true:
@@ -19,14 +20,14 @@ const getCellBgColor: CellBgColorFunc = (xCor, yCor) => {
     };
 };
 
-const ChessCell = (xCor: Cell['xCor'], yCor: Cell['yCor']) : JSX.Element => {
+const ChessCell = ({ xCor, yCor, ...rest }: { xCor: CellXCor; yCor: CellYCor } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
   const className = twMerge(
     'aspect-square col-span-1 row-span-1 flex justify-center items-center',
     getCellBgColor(xCor, yCor)
   );
 
   return (
-    <p className={ className } key={ `${xCor}:${yCor}` }></p>
+    <p className={ className } />
   );
 };
 
