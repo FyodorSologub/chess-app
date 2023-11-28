@@ -9,4 +9,5 @@ export interface Cell {
 export type Ranks = { [xCor in CellXCor]: { isHovered: boolean }; };
 export type Files = { [yCor in CellYCor]: { isHovered: boolean }; };
 export type Cells = { [key in `${CellYCor}${CellXCor}`]: { isHovered: boolean }; };
+//export type Pieces = { [key in `${CellYCor}${CellXCor}`]: {  }; };
 

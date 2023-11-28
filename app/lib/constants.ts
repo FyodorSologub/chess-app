@@ -19,4 +19,23 @@ const cells: Cells = Object.fromEntries(
     ).flat()
 ) as Cells;
 
-export { alphabet, ranks, files, cells };
+enum PiecesVariants {
+  Bishop = 'Bishop',
+  King = 'King',
+  Knight = 'Knight',
+  Pawn = 'Pawn',
+  Queen = 'Queen',
+  Rook = 'Rook',
+};
+
+enum PiecesColors {
+  white = 'white',
+  black = 'black'
+};
+
+enum CellBgColor {
+  Light = 'bg-piecesLight-custom',
+  Dark = 'bg-piecesDark-custom',
+};
+
+export { alphabet, ranks, files, cells, PiecesVariants, PiecesColors, CellBgColor };
