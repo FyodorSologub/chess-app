@@ -6,6 +6,8 @@ import { alphabet } from '@/app/lib/constants';
 import { useAppSelector, dispatch_ } from '@/app/redux/store';
 import { hover, unhover } from '@/app/redux/slices/chess-board-slice';
 
+import PieceRenderer from './PieceRenderer';
+
 enum CellBgColor {
   Light = 'bg-piecesLight-custom',
   Dark = 'bg-piecesDark-custom',
@@ -53,8 +55,7 @@ const ChessCell = ({ xCor, yCor, ...rest }: { xCor: CellXCor; yCor: CellYCor } &
       className={ className } 
       onMouseEnter={ handleHover } onMouseLeave={ handleUnhover } 
     >
-      <span className={span1Classes}>{ yCor }</span>
-      <span className={span2Classes}>{ xCor }</span>
+      <PieceRenderer />
     </p>
   );
 };
