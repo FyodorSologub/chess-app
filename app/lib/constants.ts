@@ -1,4 +1,4 @@
-import { CellXCor, CellYCor, Cells, Ranks, Files } from "./interfaces";
+import { CellXCor, CellYCor, Cells, Ranks, Files, PiecesVariants, PiecesColors, PiecesIds, Pieces } from "./interfaces";
 
 const alphabet : readonly string[] = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 
@@ -19,23 +19,10 @@ const cells: Cells = Object.fromEntries(
     ).flat()
 ) as Cells;
 
-enum PiecesVariants {
-  Bishop = 'Bishop',
-  King = 'King',
-  Knight = 'Knight',
-  Pawn = 'Pawn',
-  Queen = 'Queen',
-  Rook = 'Rook',
-};
-
-enum PiecesColors {
-  white = 'white',
-  black = 'black'
-};
-
+// перенести 
 enum CellBgColor {
   Light = 'bg-piecesLight-custom',
   Dark = 'bg-piecesDark-custom',
-};
+}; 
 
-export { alphabet, ranks, files, cells, PiecesVariants, PiecesColors, CellBgColor };
+export { alphabet, ranks, files, cells, CellBgColor };
