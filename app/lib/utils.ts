@@ -1,1 +1,1 @@
-export const range = (n: number, start = 0) => [...Array(n).keys()].map(el => el + start);
+export const range = (n: number, start = 0) : number[] => [...Array(n).keys()].map(el => el + start);
