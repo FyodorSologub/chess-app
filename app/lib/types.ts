@@ -23,12 +23,12 @@ export enum File {
 };
 
 export type PieceVariants = {
-    Bishop: 'Bishop',
-    King: 'King',
-    Knight: 'Knight',
-    Pawn: 'Pawn',
-    Queen: 'Queen',
-    Rook: 'Rook',
+    'Bishop': 'Bishop',
+    'King': 'King',
+    'Knight': 'Knight',
+    'Pawn': 'Pawn',
+    'Queen': 'Queen',
+    'Rook': 'Rook',
 };
 
 export type PieceIds = {
@@ -41,29 +41,32 @@ export type PieceIds = {
 };
 
 export type PiecesColors = {
-    White: 'White',
-    Black: 'Black'
+    'White': 'White',
+    'Black': 'Black',
 };
 
 export type PieceData = { 
-    type: PieceVariants;
+    type: string; // переписать
     rank: Rank; 
     file: File; 
     isDeposed: boolean; 
 };
 
 export type Pieces = 
-    { [key in `${PieceVariants['Bishop']}${keyof PiecesColors}${PieceIds['BishopID']}`]: PieceData; } 
-    & 
-    { [key in `${PieceVariants['King']}${keyof PiecesColors}${PieceIds['KingID']}`]: PieceData; } 
-    & 
-    { [key in `${PieceVariants['Knight']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
-    & 
     { [key in `${PieceVariants['Pawn']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
-    & 
+    //{ [key in `${typeof PieceVariants['Bishop']}${keyof PiecesColors}${PieceIds['BishopID']}`]: PieceData; } 
+    /*
+    | 
+    { [key in `${PieceVariants['King']}${keyof PiecesColors}${PieceIds['KingID']}`]: PieceData; } 
+    | 
+    { [key in `${PieceVariants['Knight']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
+    | 
+    { [key in `${PieceVariants['Pawn']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
+    | 
     { [key in `${PieceVariants['Queen']}${keyof PiecesColors}${PieceIds['QueenID']}`]: PieceData; } 
-    & 
+    | 
     { [key in `${PieceVariants['Rook']}${keyof PiecesColors}${PieceIds['RookID']}`]: PieceData; } 
+    */
 
 export type CoordinatesData = { isHovered: boolean };
 export type CellsData = { isHovered: boolean; hasPiece: boolean; pieceId: string };
