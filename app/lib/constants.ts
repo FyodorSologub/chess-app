@@ -13,10 +13,10 @@ export const ranks = Object.fromEntries(range(8).map(i => {
     return [String(i+1), { isHovered: false }];
  })) as Ranks;
 
-export const cells : Cells = Object.fromEntries(
+const cells_raw : Cells = Object.fromEntries(
     Object.keys(files).map(file => 
         Object.keys(ranks).map(rank => 
-            [`${file}${rank}`, { isHovered: false, color: getCellColor(file as File, rank as Rank) }])
+            [`${file}${rank}`, { isHovered: false, piece: null, pieceColor: null, color: getCellColor(file as File, rank as Rank) }])
     ).flat()
 );
 
@@ -35,7 +35,7 @@ export const pieceQuantity = Object.fromEntries(
                 quantity = 1;
                 break;
             case 'Knight':
-                quantity = 1;
+                quantity = 2;
                 break;
             case 'Pawn':
                 quantity = 8;
@@ -83,9 +83,21 @@ export const pieces: Pieces = Object.fromEntries(
       Object.keys(pieceVariants).flatMap(variant =>
         range(pieceQuantity[variant as PieceVariant], 1).map(id => {
           const key = `${color as PiceColors}${variant as PieceVariant}${id as number}`;
-          const value = { type: variant as PieceVariant, file: defaultPositions[variant as PieceVariant][id-1], rank: getRank(color as PiceColors, variant as PieceVariant), isDeposed: false } as PieceData;
+          const value = { 
+            type: variant as PieceVariant, color: color as PiceColors, 
+            isDeposed: false, 
+            file: defaultPositions[variant as PieceVariant][id-1], 
+            rank: getRank(color as PiceColors, variant as PieceVariant), 
+        } as PieceData;
           return [key, value];
         })
       )
     )
 ) as Pieces;
+
+Object.values(pieces).forEach(data => {
+    cells_raw[`${data['file'] as File}${data['rank'] as Rank}`].piece = data['type'];
+    cells_raw[`${data['file'] as File}${data['rank'] as Rank}`].pieceColor = data['color'];
+});
+
+export const cells = { ...cells_raw };

@@ -9,14 +9,18 @@ import { getCellColorClasses } from '@/app/lib/utils';
 
 const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
   const color = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].color);
-  
+  const dispatch = dispatch_();
+  const handleHover = () => dispatch(hover({ rank, file }));
+  const handleUnhover = () => dispatch(unhover({ rank, file }));
   const className = twMerge(
     'relative aspect-square col-span-1 row-span-1 flex justify-center items-center p-1',
     getCellColorClasses(color),
   );
 
   return (
-    <p className={ className }>
+    <p 
+      onMouseEnter={ handleHover } onMouseLeave={ handleUnhover }
+      className={ className }>
       <PieceRenderer file={ file } rank={ rank } />
     </p>
   );

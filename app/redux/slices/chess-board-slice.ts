@@ -1,17 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { File, Rank, Files, Ranks, Cells, Cell } from '@/app/lib/types';
-import { files, ranks, cells } from '@/app/lib/constants';
+import { File, Rank, Files, Ranks, Cells, Cell, Pieces } from '@/app/lib/types';
+import { files, ranks, cells, pieces } from '@/app/lib/constants';
 
 interface InitialState {
     files: Files,
     ranks: Ranks,
     cells: Cells,
+    pieces: Pieces,
 };
 
 const initialState = {
     files,
     ranks,
     cells, 
+    pieces,
 };
 
 const hoverCell = (state : InitialState, action: PayloadAction<Cell>) : void => {

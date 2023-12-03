@@ -1,15 +1,16 @@
 import Image from "next/image";
+import { PiceColors } from "@/app/lib/types";
 
-const King = () => {
-    const color = 'black';
-    const core_root = '@/public/chess_pieces';
-    const root = core_root + color === 'black' ? '/black/bishop.svg' : '/white/bishop.svg';
+const King : React.FC<{ color: PiceColors }> = ( { color } ) : JSX.Element => {
+    const core_root = '/chess_pieces';
+    const root = color === 'Black' ? '/black/king.svg' : '/white/king.svg';
+    const path = core_root + root;
     return (
         <Image
-            src='/chess_pieces/black/king.svg'
+            src={ path }
             width='72'
             height='72'
-            alt={ `a ${color} king` }
+            alt={ `The ${color.toLowerCase()} king` }
         />
     );
 };

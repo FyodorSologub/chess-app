@@ -10,9 +10,26 @@ import BoardRank from "../ui/chess_board/BoardRank";
 import ChessCell from "../ui/chess_board/ChessCell";
 
 // arrays of Jsx elements
-const boardRanks: JSX.Element[] = Object.entries(ranks).map(([rank, _]) => <BoardRank key={rank} rank={rank as Rank} />);
+const boardRanks: JSX.Element[] = Object.keys(ranks).reverse().map(rank => <BoardRank key={rank} rank={rank as Rank} />);
 const boardFiles: JSX.Element[] = Object.entries(files).map(([file, _]) => <BoardFile key={file} file={file as File} />);
-const chessCells: JSX.Element[] = Object.entries(cells).map(([key, _]) => {
+
+const cellsArray = Object.keys(cells);
+
+const sortedCellsArray = cellsArray.sort((a, b) => {
+  const fileA = a[0];
+  const rankA = parseInt(a[1]);
+
+  const fileB = b[0];
+  const rankB = parseInt(b[1]);
+
+  if (rankA !== rankB) {
+    return rankB - rankA;
+  } else {
+    return fileA.localeCompare(fileB);
+  }
+});
+
+const chessCells: JSX.Element[] = sortedCellsArray.map(key => {
   const [file, rank] = key.split('') as [File, Rank];
   return <ChessCell key={key} file={file} rank={rank} />;
 });
