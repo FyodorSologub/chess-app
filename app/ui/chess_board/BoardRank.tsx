@@ -2,17 +2,17 @@
 
 import { twMerge } from 'tailwind-merge'
 import { useAppSelector } from '@/app/redux/store';
-import { CellXCor } from "@/app/lib/interfaces";
+import { File, Rank, Files, Ranks, Cells, Cell } from '@/app/lib/types';
 
-const BoardRank = ({ xCor, ...rest }: { xCor: CellXCor } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
-    const isHovered = useAppSelector(state => state.chessBoardReducer.ranks[xCor].isHovered);
+const BoardRank = ({ rank, ...rest }: { rank: Rank } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
+    const isHovered = useAppSelector(state => state.chessBoardReducer.ranks[rank].isHovered);
     const className = twMerge(
         'flex justify-center items-center transition-all',
         'text-velvetBlack-custom col-span-1 row-span-1',
         isHovered === true ? 'font-md' : 'antialiased font-thin'
     );
 
-    return <p className={ className }>{ xCor }</p>;
+    return <p className={ className }>{ rank }</p>;
 };
 
 export default BoardRank;

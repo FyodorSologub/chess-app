@@ -1,93 +1,18 @@
-export const range = (n: number, start = 0) : number[] => Array.from({length: n}, (_, i) => i + start);
+export type File = 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
+export type Rank = '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8';
 
-export enum Rank {
-    '1_' = '1',
-    '2_' = '2',
-    '3_' = '3',
-    '4_' = '4',
-    '5_' = '5',
-    '6_' = '6',
-    '7_' = '7',
-    '8_' = '8',
-};
+export type Files = { readonly [ key in File] : { isHovered: boolean }; };
+export type Ranks = { readonly [ key in Rank] : { isHovered: boolean }; };
 
-export enum File {
-    'A' = 'A',
-    'B' = 'B',
-    'C' = 'C',
-    'D' = 'D',
-    'E' = 'E',
-    'F' = 'F',
-    'G' = 'G',
-    'H' = 'H',
-};
+export type CellColor = 'White' | 'Black';
+export type Cell = { readonly file : File, readonly rank : Rank };
+export type Cells = { [ key in `${File}${Rank}` ] : { isHovered: boolean, readonly color: CellColor } };
 
-export type PieceVariants = {
-    'Bishop': 'Bishop',
-    'King': 'King',
-    'Knight': 'Knight',
-    'Pawn': 'Pawn',
-    'Queen': 'Queen',
-    'Rook': 'Rook',
-};
+export type PieceVariant = 'Bishop' | 'King' | 'Knight' | 'Pawn' | 'Queen' | 'Rook';
+export type PieceVariants = { readonly [ key in PieceVariant ] : string };
+export type PiceColors = {} & CellColor;
+export type PieceQuantity = { readonly [ key in PieceVariant ] : number };
+export type PieceData = { readonly type: PieceVariant, file: File, rank: Rank, isDeposed: boolean };
 
-export type PieceIds = {
-    BishopID: '1' | '2',
-    KingID: '1' | '2',
-    KnightID: '1' | '2',
-    PawnID: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8',
-    QueenID: '1' | '2',
-    RookID: '1' | '2',
-};
-
-export type PiecesColors = {
-    'White': 'White',
-    'Black': 'Black',
-};
-
-export type PieceData = { 
-    type: string; // переписать
-    rank: Rank; 
-    file: File; 
-    isDeposed: boolean; 
-};
-
-export type Pieces = 
-    { [key in `${PieceVariants['Pawn']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
-    //{ [key in `${typeof PieceVariants['Bishop']}${keyof PiecesColors}${PieceIds['BishopID']}`]: PieceData; } 
-    /*
-    | 
-    { [key in `${PieceVariants['King']}${keyof PiecesColors}${PieceIds['KingID']}`]: PieceData; } 
-    | 
-    { [key in `${PieceVariants['Knight']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
-    | 
-    { [key in `${PieceVariants['Pawn']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
-    | 
-    { [key in `${PieceVariants['Queen']}${keyof PiecesColors}${PieceIds['QueenID']}`]: PieceData; } 
-    | 
-    { [key in `${PieceVariants['Rook']}${keyof PiecesColors}${PieceIds['RookID']}`]: PieceData; } 
-    */
-
-const WhitePawns = Object.fromEntries(range(8,1).map(key => {
-    const data = {
-        type: 'Pawn',
-        rank: '2' as Rank, 
-        file: String.fromCharCode(65 + key - 1) as File, 
-        isDeposed: false } as PieceData;
-    return [`PawnWhite${key}`, data];
-})) as Pieces;
-const BlackPawns = Object.fromEntries(range(8,1).map(key => {
-    const data = {
-        type: 'Pawn',
-        rank: '7' as Rank, 
-        file: String.fromCharCode(65 + key - 1) as File, 
-        isDeposed: false } as PieceData;
-    return [`PawnBlack${key}`, data];
-})) as Pieces;
-
-export type CoordinatesData = { isHovered: boolean };
-export type CellsData = { isHovered: boolean; hasPiece: boolean; pieceId: string };
-
-export type Ranks = { [rank in Rank]: CoordinatesData };
-export type Files = { [file in File]: CoordinatesData };
-export type Cells = { [key in `${File}${Rank}`]: CellsData };
+export type DefaultPositions = { [ key in PieceVariant ] : File[] };
+export type Pieces = { [ key in `${PiceColors}${PieceVariant}${number}` ] : PieceData };

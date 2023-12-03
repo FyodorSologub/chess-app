@@ -1,29 +1,26 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Cell, Ranks, Files, Cells } from '@/app/lib/interfaces';
-import { ranks, files, cells } from '@/app/lib/constants';
+import { File, Rank, Files, Ranks, Cells, Cell } from '@/app/lib/types';
+import { files, ranks, cells } from '@/app/lib/constants';
 
 interface InitialState {
-    ranks: Ranks,
     files: Files,
+    ranks: Ranks,
     cells: Cells,
 };
 
-const initialState : InitialState = {
-   ranks,
-   files,
-   cells, 
+const initialState = {
+    files,
+    ranks,
+    cells, 
 };
 
-// reducers
 const hoverCell = (state : InitialState, action: PayloadAction<Cell>) : void => {
-    state.cells[`${action.payload.yCor}${action.payload.xCor}`]['isHovered'] = true;
-    state.ranks[action.payload.xCor]['isHovered'] = true;
-    state.files[action.payload.yCor]['isHovered'] = true;
+    state.ranks[action.payload.rank]['isHovered'] = true;
+    state.files[action.payload.file]['isHovered'] = true;
 };
 const unhoverCell = (state : InitialState, action: PayloadAction<Cell>) : void => {
-    state.cells[`${action.payload.yCor}${action.payload.xCor}`]['isHovered'] = false;
-    state.ranks[action.payload.xCor]['isHovered'] = false;
-    state.files[action.payload.yCor]['isHovered'] = false;
+    state.ranks[action.payload.rank]['isHovered'] = false;
+    state.files[action.payload.file]['isHovered'] = false;
 };
 
 export const chessBoardReducer = createSlice({

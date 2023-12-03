@@ -1,28 +1,91 @@
-import { CellXCor, CellYCor, Cells, Ranks, Files, PiecesVariants, PiecesColors, PiecesIds, Pieces } from "./interfaces";
+import { range, getUpperLetter, getCellColor, getRank } from './utils';
+import { 
+    File, Rank, Files, Ranks, Cells, 
+    PieceVariant, PieceVariants, PiceColors, 
+    PieceQuantity, PieceData, DefaultPositions, Pieces
+} from './types';
 
-const alphabet : readonly string[] = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+export const files = Object.fromEntries(range(8).map(i => { 
+    return [getUpperLetter(i), { isHovered: false }];
+ })) as Files;
 
-const ranks: Ranks = Object.fromEntries(
-    Array.from({ length: 8 }, (_, index) => [String(index + 1) as CellXCor, { isHovered: false }])
-) as Ranks;
-  
-const files: Files = Object.fromEntries(
-    Array.from('ABCDEFGH', (yCor) => [yCor as CellYCor, { isHovered: false }])
-) as Files;
-  
-const cells: Cells = Object.fromEntries(
-    Array.from({ length: 8 }, (_, xCor) =>
-      Array.from('ABCDEFGH', (yCor) => [
-        `${yCor}${xCor + 1}` as `${CellYCor}${CellXCor}`,
-        { isHovered: false },
-      ])
+export const ranks = Object.fromEntries(range(8).map(i => { 
+    return [String(i+1), { isHovered: false }];
+ })) as Ranks;
+
+export const cells : Cells = Object.fromEntries(
+    Object.keys(files).map(file => 
+        Object.keys(ranks).map(rank => 
+            [`${file}${rank}`, { isHovered: false, color: getCellColor(file as File, rank as Rank) }])
     ).flat()
-) as Cells;
+);
 
-// перенести 
-enum CellBgColor {
-  Light = 'bg-piecesLight-custom',
-  Dark = 'bg-piecesDark-custom',
-}; 
+export const pieceVariants = Object.fromEntries(
+    ['Bishop', 'King', 'Knight', 'Pawn', 'Queen', 'Rook'].map(el => [el as PieceVariant, el])
+) as PieceVariants;
 
-export { alphabet, ranks, files, cells, CellBgColor };
+export const pieceQuantity = Object.fromEntries(
+    Object.keys(pieceVariants).map(variant => {
+        let quantity;
+        switch(variant) {
+            case 'Bishop':
+                quantity = 2;
+                break;
+            case 'King':
+                quantity = 1;
+                break;
+            case 'Knight':
+                quantity = 1;
+                break;
+            case 'Pawn':
+                quantity = 8;
+                break;
+            case 'Queen':
+                quantity = 1;
+                break;
+            case 'Rook':
+                quantity = 2;
+                break;
+        };
+        return [variant, quantity]
+    })
+) as PieceQuantity;
+
+export const defaultPositions = Object.fromEntries(
+    Object.keys(pieceVariants).map(variant => {
+        let positions : File[] = [];
+        switch(variant) {
+            case 'Bishop':
+                positions = ['C', 'F'];
+                break;
+            case 'King':
+                positions = ['E'];
+                break;
+            case 'Knight':
+                positions = ['B', 'G'];
+                break;
+            case 'Pawn':
+                positions = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+                break;
+            case 'Queen':
+                positions = ['D'];
+                break;
+            case 'Rook':
+                positions = ['A', 'H'];
+                break;
+        };
+        return [variant, positions];
+    })
+) as DefaultPositions;
+
+export const pieces: Pieces = Object.fromEntries(
+    ['White', 'Black'].flatMap(color =>
+      Object.keys(pieceVariants).flatMap(variant =>
+        range(pieceQuantity[variant as PieceVariant], 1).map(id => {
+          const key = `${color as PiceColors}${variant as PieceVariant}${id as number}`;
+          const value = { type: variant as PieceVariant, file: defaultPositions[variant as PieceVariant][id-1], rank: getRank(color as PiceColors, variant as PieceVariant), isDeposed: false } as PieceData;
+          return [key, value];
+        })
+      )
+    )
+) as Pieces;

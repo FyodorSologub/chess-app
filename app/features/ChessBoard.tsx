@@ -1,8 +1,8 @@
+// types
+import { File, Rank } from "../lib/types";
+
 // constants
 import { files, ranks, cells } from "../lib/constants";
-
-// interfeces and types
-import { CellXCor, CellYCor } from '@/app/lib/interfaces';
 
 // components
 import BoardFile from "../ui/chess_board/BoardFile";
@@ -10,13 +10,12 @@ import BoardRank from "../ui/chess_board/BoardRank";
 import ChessCell from "../ui/chess_board/ChessCell";
 
 // arrays of Jsx elements
-const boardRanks: JSX.Element[] = Object.entries(ranks).map(([xCor, _]) => <BoardRank key={xCor} xCor={xCor as CellXCor} />);
-const boardFiles: JSX.Element[] = Object.entries(files).map(([yCor, _]) => <BoardFile key={yCor} yCor={yCor as CellYCor} />);
+const boardRanks: JSX.Element[] = Object.entries(ranks).map(([rank, _]) => <BoardRank key={rank} rank={rank as Rank} />);
+const boardFiles: JSX.Element[] = Object.entries(files).map(([file, _]) => <BoardFile key={file} file={file as File} />);
 const chessCells: JSX.Element[] = Object.entries(cells).map(([key, _]) => {
-  const [yCor, xCor] = key.split('') as [CellYCor, CellXCor];
-  return <ChessCell key={key} xCor={xCor} yCor={yCor} />;
+  const [file, rank] = key.split('') as [File, Rank];
+  return <ChessCell key={key} file={file} rank={rank} />;
 });
-
 
 const ChessBoard = () : JSX.Element => {
   return (
