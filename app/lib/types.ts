@@ -68,6 +68,23 @@ export type Pieces =
     { [key in `${PieceVariants['Rook']}${keyof PiecesColors}${PieceIds['RookID']}`]: PieceData; } 
     */
 
+const WhitePawns = Object.fromEntries(range(8,1).map(key => {
+    const data = {
+        type: 'Pawn',
+        rank: '2' as Rank, 
+        file: String.fromCharCode(65 + key - 1) as File, 
+        isDeposed: false } as PieceData;
+    return [`PawnWhite${key}`, data];
+})) as Pieces;
+const BlackPawns = Object.fromEntries(range(8,1).map(key => {
+    const data = {
+        type: 'Pawn',
+        rank: '7' as Rank, 
+        file: String.fromCharCode(65 + key - 1) as File, 
+        isDeposed: false } as PieceData;
+    return [`PawnBlack${key}`, data];
+})) as Pieces;
+
 export type CoordinatesData = { isHovered: boolean };
 export type CellsData = { isHovered: boolean; hasPiece: boolean; pieceId: string };
 
