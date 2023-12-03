@@ -1,11 +1,28 @@
-import { range } from "./utils";
+export const range = (n: number, start = 0) : number[] => Array.from({length: n}, (_, i) => i + start);
 
-export type Cell = {
-    rank: '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8';
-    file: 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H';
+export enum Rank {
+    '1_' = '1',
+    '2_' = '2',
+    '3_' = '3',
+    '4_' = '4',
+    '5_' = '5',
+    '6_' = '6',
+    '7_' = '7',
+    '8_' = '8',
 };
 
-export type PiecesVariants = {
+export enum File {
+    'A' = 'A',
+    'B' = 'B',
+    'C' = 'C',
+    'D' = 'D',
+    'E' = 'E',
+    'F' = 'F',
+    'G' = 'G',
+    'H' = 'H',
+};
+
+export type PieceVariants = {
     Bishop: 'Bishop',
     King: 'King',
     Knight: 'Knight',
@@ -14,7 +31,7 @@ export type PiecesVariants = {
     Rook: 'Rook',
 };
 
-export type PiecesIds = {
+export type PieceIds = {
     BishopID: '1' | '2',
     KingID: '1' | '2',
     KnightID: '1' | '2',
@@ -29,52 +46,28 @@ export type PiecesColors = {
 };
 
 export type PieceData = { 
-    rank : Cell['rank'], 
-    file: Cell['file'], 
-    isDeposed: boolean, 
-    pieceType: PiecesVariants 
+    type: PieceVariants;
+    rank: Rank; 
+    file: File; 
+    isDeposed: boolean; 
 };
+
+export type Pieces = 
+    { [key in `${PieceVariants['Bishop']}${keyof PiecesColors}${PieceIds['BishopID']}`]: PieceData; } 
+    & 
+    { [key in `${PieceVariants['King']}${keyof PiecesColors}${PieceIds['KingID']}`]: PieceData; } 
+    & 
+    { [key in `${PieceVariants['Knight']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
+    & 
+    { [key in `${PieceVariants['Pawn']}${keyof PiecesColors}${PieceIds['PawnID']}`]: PieceData; } 
+    & 
+    { [key in `${PieceVariants['Queen']}${keyof PiecesColors}${PieceIds['QueenID']}`]: PieceData; } 
+    & 
+    { [key in `${PieceVariants['Rook']}${keyof PiecesColors}${PieceIds['RookID']}`]: PieceData; } 
 
 export type CoordinatesData = { isHovered: boolean };
 export type CellsData = { isHovered: boolean; hasPiece: boolean; pieceId: string };
 
-export type PawnsWhite = { [key in `${PiecesVariants['Pawn']}${PiecesColors['White']}${PiecesIds['PawnID']}`]: PieceData; };
-export type PawnsBlack = { [key in `${PiecesVariants['Pawn']}${PiecesColors['Black']}${PiecesIds['PawnID']}`]: PieceData; };
-
-export type RooksWhite = { [key in `${PiecesVariants['King']}${PiecesColors['White']}${PiecesIds['KingID']}`]: PieceData; };
-export type RooksBlack = { [key in `${PiecesVariants['King']}${PiecesColors['Black']}${PiecesIds['KingID']}`]: PieceData; };
-
-export type KnightsWhite = { [key in `${PiecesVariants['Knight']}${PiecesColors['White']}${PiecesIds['KnightID']}`]: PieceData; };
-export type KnightsBlack = { [key in `${PiecesVariants['Knight']}${PiecesColors['Black']}${PiecesIds['KnightID']}`]: PieceData; };
-
-export type BishopsWhite = { [key in `${PiecesVariants['Bishop']}${PiecesColors['White']}${PiecesIds['BishopID']}`]: PieceData; };
-export type BishopsBlack = { [key in `${PiecesVariants['Bishop']}${PiecesColors['Black']}${PiecesIds['BishopID']}`]: PieceData; };
-
-export type QueensWhite = { [key in `${PiecesVariants['Queen']}${PiecesColors['White']}${PiecesIds['QueenID']}`]: PieceData; };
-export type QueensBlack = { [key in `${PiecesVariants['Queen']}${PiecesColors['Black']}${PiecesIds['QueenID']}`]: PieceData; };
-
-export type KingsWhite = { [key in `${PiecesVariants['Pawn']}${PiecesColors['White']}${PiecesIds['PawnID']}`]: PieceData; };
-export type KingsBlack = { [key in `${PiecesVariants['Pawn']}${PiecesColors['Black']}${PiecesIds['PawnID']}`]: PieceData; };
-
-// rewrite
-const pawnsWhite = Object.fromEntries(range(8,1).map(key => [`PawnWhite${key}`])) as PawnsWhite;
-console.log(pawnsWhite);
-
-export type Pieces = {
-    PawnsWhite: PawnsWhite,
-    PawnsBlack: PawnsBlack,
-    RooksWhite: RooksWhite,
-    RooksBlack: RooksBlack,
-    KnightsWhite: KnightsWhite,
-    KnightsBlack: KnightsBlack,
-    BishopsWhite: BishopsWhite,
-    BishopsBlack: BishopsBlack,
-    QueensWhite: QueensWhite,
-    QueensBlack: QueensBlack,
-    KingsWhite: KingsWhite,
-    KingsBlack: KingsBlack,
-};
-
-export type Ranks = { [rank in Cell['rank']]: CoordinatesData };
-export type Files = { [file in Cell['file']]: CoordinatesData };
-export type Cells = { [key in `${Cell['file']}${Cell['rank']}`]: CellsData };
+export type Ranks = { [rank in Rank]: CoordinatesData };
+export type Files = { [file in File]: CoordinatesData };
+export type Cells = { [key in `${File}${Rank}`]: CellsData };
