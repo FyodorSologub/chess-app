@@ -10,11 +10,11 @@ import Pawn from '../chess_pieces/Pawn';
 import Queen from '../chess_pieces/Queen';
 import Rook from '../chess_pieces/Rook';
 
-const getPiece = ( piece : PieceVariant, color : PiceColors ) : JSX.Element => {
+const getPiece = ( piece : PieceVariant, color : PiceColors, file : File, rank : Rank) : JSX.Element => {
     return piece === 'Bishop' ? <Bishop color={color} /> 
     : piece === 'King' ? <King color={color} /> 
     : piece === 'Knight' ? <Knight color={color} /> 
-    : piece === 'Pawn' ? <Pawn color={color} /> 
+    : piece === 'Pawn' ? <Pawn color={color} file={file} rank={rank} /> 
     : piece === 'Queen' ? <Queen color={color} /> 
     : <Rook color={color} /> 
 };
@@ -22,10 +22,7 @@ const getPiece = ( piece : PieceVariant, color : PiceColors ) : JSX.Element => {
 const PieceRenderer : React.FC<Cell & { isSelected : Boolean }> = ( { file, rank, isSelected } ) : JSX.Element => {
     const piece = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].piece);
     const pieceColor = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceColor);
-
-    const className = isSelected === true ? 'animate-bounce transition-all ease-in-out' : 'transition-all ease-in-out';
-
-    return piece === null || pieceColor === null ? <div></div> : <div className={className}>{ getPiece(piece, pieceColor) }</div>;
+    return piece === null || pieceColor === null ? <></> : getPiece(piece, pieceColor, file, rank);
 };
 
 export default PieceRenderer;
