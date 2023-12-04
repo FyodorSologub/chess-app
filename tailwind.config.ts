@@ -77,6 +77,9 @@ const config: Config = {
         midnightBadger: {
           custom: '#575965',
         },
+        selectedCell: {
+          custom: '#7B61FF'
+        },
       },
       gridTemplateRows: {
         '8': 'repeat(8, minmax(0, 1fr))',
