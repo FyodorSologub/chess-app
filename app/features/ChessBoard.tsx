@@ -9,7 +9,7 @@ import BoardFile from "../ui/chess_board/BoardFile";
 import BoardRank from "../ui/chess_board/BoardRank";
 import ChessCell from "../ui/chess_board/ChessCell";
 
-// arrays of Jsx elements
+// arrays of Jsx elementsfs
 const boardRanks: JSX.Element[] = Object.keys(ranks).reverse().map(rank => <BoardRank key={rank} rank={rank as Rank} />);
 const boardFiles: JSX.Element[] = Object.entries(files).map(([file, _]) => <BoardFile key={file} file={file as File} />);
 
