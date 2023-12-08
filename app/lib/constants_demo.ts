@@ -1,8 +1,14 @@
 import { 
     File, Rank, Files, Ranks, Cell, Color, 
-    PieceVariant, DefaultPositions, PieceId, PieceIdCollection
+    PieceVariant, DefaultPositions, PieceId,
+    FileOffset, RankOffset, CellData, Cells,
 } from "./types_demo";
-import { range } from "./utils";
+import { range,  } from "./utils";
+
+// !!!
+export const getCellColor = (file : File, rank : Rank) : Color => 
+     (Number(rank) % 2 + (file.charCodeAt(0)-64) % 2) % 2 === 0 ? 'White' : 'Black';
+// !!!
 
 export const FILE_VALUES: File[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
 export const RANK_VALUES: Rank[] = ['1', '2', '3', '4', '5', '6', '7', '8'];
@@ -30,10 +36,47 @@ export const PIECE_ID_VALUES: PieceId = {
   'Rook': '2',
 };
 
+export const FILE_OFFSET : FileOffset = {
+  'Bishop' : ['C', 'F'],
+  'King' : ['E'], 
+  'Knight': ['B', 'G'], 
+  'Pawn' : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+  'Queen' : ['D'],
+  'Rook' : ['A', 'H'],
+};
+
+export const RANK_OFFSET : RankOffset = {
+  'White': '1',
+  'WhitePawn' : '2',
+  'Black': '8',
+  'BlackPawn': '7'
+};
+
 export const DEFAULT_POSITIONS = Object.fromEntries(
   COLOR_VALUES.flatMap(color =>
     PIECE_VARIANT_VALUES.flatMap(pieceVariant => 
-      [ [ `${color}${pieceVariant}` as `${Color}${PieceVariant}` ], range(Number(PIECE_ID_VALUES[pieceVariant]),1).flatMap(id => [{ file: 'A', rank: id }]) ]
+      range(Number(PIECE_ID_VALUES[pieceVariant]),1).map(id => 
+        [ `${color}${pieceVariant}${id}` as `${Color}${PieceVariant}${PieceId[PieceVariant]}`, 
+          { file: FILE_OFFSET[pieceVariant][id-1], color: color, type: pieceVariant, id: String(id),
+            rank: pieceVariant !== 'Pawn' ? RANK_OFFSET[color] : RANK_OFFSET[`${color}Pawn`] 
+          } 
+        ]
+      )
     )
+  )  
+) as DefaultPositions<PieceVariant>;
+
+const CELLS_RAW = Object.fromEntries(
+  FILE_VALUES.flatMap(file => 
+      RANK_VALUES.map(rank => 
+          [`${file}${rank}`, { isHovered: false, piece: null, pieceColor: null, pieceId: null, color: getCellColor(file as File, rank as Rank) }])
   )
-) as DefaultPositions;
+) as Cells;
+
+Object.values(DEFAULT_POSITIONS).forEach(data => {
+  CELLS_RAW[`${data['file'] as File}${data['rank'] as Rank}`].piece = data['type'];
+  CELLS_RAW[`${data['file'] as File}${data['rank'] as Rank}`].pieceColor = data['color'];
+  CELLS_RAW[`${data['file'] as File}${data['rank'] as Rank}`].pieceId = data['id'];
+});
+
+export const CELLS = { ...CELLS_RAW }
