@@ -1,7 +1,7 @@
 import { 
-    File, Rank, Files, Ranks, Cell, Color, 
+    File, Rank, Files, Ranks,  Color, 
     PieceVariant, DefaultPositions, PieceId,
-    FileOffset, RankOffset, CellData, Cells,
+    FileOffset, RankOffset, Cells,
 } from "./types_demo";
 import { range,  } from "./utils";
 
@@ -68,8 +68,11 @@ export const DEFAULT_POSITIONS = Object.fromEntries(
 
 const CELLS_RAW = Object.fromEntries(
   FILE_VALUES.flatMap(file => 
-      RANK_VALUES.map(rank => 
-          [`${file}${rank}`, { isHovered: false, piece: null, pieceColor: null, pieceId: null, color: getCellColor(file as File, rank as Rank) }])
+    RANK_VALUES.map(rank => 
+      [`${file}${rank}`, { isHovered: false, piece: null, pieceColor: null, 
+        pieceId: null, color: getCellColor(file as File, rank as Rank) }
+      ]
+    )
   )
 ) as Cells;
 
