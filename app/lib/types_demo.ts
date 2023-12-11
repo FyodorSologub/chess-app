@@ -30,4 +30,4 @@ export type CellData = {
     pieceColor: Color | null, readonly color: Color,
     pieceId: string | null, 
 };
-export type Cells = { [ key in `${File}${Rank}` ] : CellData };
+export type Cells = { [ key in `${File}${Rank}` ] : CellData };//
