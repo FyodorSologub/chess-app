@@ -11,7 +11,7 @@ import Pawn from '../chess_pieces/Pawn';
 import Queen from '../chess_pieces/Queen';
 import Rook from '../chess_pieces/Rook';
 
-const Piece : React.FC<{ piece : PieceVariant | null, color : Color | null }> = ( { piece, color } ) : JSX.Element => {
+const Piece : React.FC<{ piece : PieceVariant | null, color : Color | null, file : File, rank: Rank }> = ( { piece, color, file, rank } ) : JSX.Element => {
     return piece === 'Bishop' ? <Bishop color={color} /> 
     : piece === 'King' ? <King color={color} /> 
     : piece === 'Knight' ? <Knight color={color} /> 
@@ -25,7 +25,7 @@ const PieceRenderer : React.FC<Cell & { isSelected : Boolean }> = ( { file, rank
     const piece = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].piece);
     const pieceColor = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceColor);
     const pieceId = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceId);
-    return <span><Piece piece={piece} color={pieceColor} /></span>;
+    return <span><Piece piece={piece} color={pieceColor} file={file} rank={rank} /></span>;
 };
 
 export default PieceRenderer;

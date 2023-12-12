@@ -36,7 +36,7 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
       onClick={ handleClick }
       className={ className }>
       <PieceRenderer file={ file } rank={ rank } isSelected={ isSelected } />
-      {`${file}${rank}`}
+      {/*`${file}${rank}`*/}
     </p>
   );
 };
