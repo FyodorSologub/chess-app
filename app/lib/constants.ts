@@ -1,7 +1,7 @@
 import { 
     File, Rank, Files, Ranks,  Color, 
     PieceVariant, DefaultPositions, PieceId,
-    FileOffset, RankOffset, Cells, CellSelected
+    FileOffset, RankOffset, Cells, CellSelected, SelectedCellCoordinates, Stage
 } from "./types";
 import { range, getCellColor } from "./utils";
 
@@ -64,8 +64,8 @@ export const DEFAULT_POSITIONS = Object.fromEntries(
 const CELLS_RAW = Object.fromEntries(
   FILE_VALUES.flatMap(file => 
     RANK_VALUES.map(rank => 
-      [`${file}${rank}`, { isHovered: false, piece: null, pieceColor: null, 
-        pieceId: null, color: getCellColor(file as File, rank as Rank) }
+      [`${file}${rank}`, { isHovered: false, isSelected: false, piece: null, pieceColor: null, 
+        pieceId: null, legitPlaceToMove: false, color: getCellColor(file as File, rank as Rank) }
       ]
     )
   )
@@ -81,3 +81,7 @@ export const CELLS_DEFAULT = { ...CELLS_RAW };
 export const CELLS_KEYS = Object.keys(CELLS_DEFAULT);
 
 export const CELL_SELECTED_DEFAULT : CellSelected = { file: null, rank: null };
+
+export const  SELECTED_CELL_COORDINATES : SelectedCellCoordinates = { file: null, rank: null, piece: null, pieceColor : null, pieceId : null };
+
+export const DEFAULT_STAGE : Stage = 'default';

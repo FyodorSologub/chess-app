@@ -28,16 +28,29 @@ export type Piece<T extends PieceVariant> = {
 export type CellData = { 
     isHovered: boolean, piece: PieceVariant | null, 
     pieceColor: Color | null, readonly color: Color,
-    pieceId: string | null, 
+    pieceId: string | null, isSelected: boolean, legitPlaceToMove: boolean,
 };
 export type Cells = { [ key in `${File}${Rank}` ] : CellData };
 export type CellSelected = { file: File | null, rank: Rank | null };
+
+export type SelectedCellCoordinates = {
+    file: File | null,
+    rank: Rank | null,
+    piece: PieceVariant | null,
+    pieceColor: Color | null,
+    pieceId: string | null,
+}
+
+export type Stage = 'default' | 'moving';
 
 export type InitialState = {
     files: Files,
     ranks: Ranks,
     cells: Cells,
-    selectedCell: CellSelected,
+    selectedCell: SelectedCellCoordinates, 
+    stage: Stage,
 };
 
-export type PieceMoveData = { prevCell: Cell, newCell: Cell, piece: PieceVariant | null, pieceColor: Color | null, pieceId: string | null };
+export type CellWithEmpty = { readonly file : File | null , readonly rank : Rank | null }
+
+export type PieceMoveData = { prevCell: CellWithEmpty, newCell: CellWithEmpty, piece: PieceVariant | null, pieceColor: Color | null, pieceId: string | null };

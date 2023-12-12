@@ -11,7 +11,7 @@ import Pawn from '../chess_pieces/Pawn';
 import Queen from '../chess_pieces/Queen';
 import Rook from '../chess_pieces/Rook';
 
-const getPiece = ( piece : PieceVariant | null, color : Color | null ) : JSX.Element => {
+const Piece : React.FC<{ piece : PieceVariant | null, color : Color | null }> = ( { piece, color } ) : JSX.Element => {
     return piece === 'Bishop' ? <Bishop color={color} /> 
     : piece === 'King' ? <King color={color} /> 
     : piece === 'Knight' ? <Knight color={color} /> 
@@ -24,12 +24,8 @@ const getPiece = ( piece : PieceVariant | null, color : Color | null ) : JSX.Ele
 const PieceRenderer : React.FC<Cell & { isSelected : Boolean }> = ( { file, rank, isSelected } ) : JSX.Element => {
     const piece = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].piece);
     const pieceColor = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceColor);
-    //const pieceId = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceId);
-    //const moveData : PieceMoveData = { prevCell:{ file, rank }, newCell:{ file: 'E', rank: '1'}, piece: piece, pieceColor: pieceColor, pieceId: pieceId };
-    //const dispatch = dispatch_();
-    //const movePiece_ = () => dispatch(movePiece(moveData));
-    //window.movePiece = movePiece;
-    return <>{ getPiece(piece, pieceColor) }</>;
+    const pieceId = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceId);
+    return <span><Piece piece={piece} color={pieceColor} /></span>;
 };
 
 export default PieceRenderer;
