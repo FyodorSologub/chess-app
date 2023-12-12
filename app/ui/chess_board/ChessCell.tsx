@@ -27,7 +27,7 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
   return (
     <p 
       onMouseEnter={ handleHover } onMouseLeave={ handleUnhover }
-      onClick={ selectCell }
+      // onClick={ selectCell }
       className={ className }>
       <PieceRenderer file={ file } rank={ rank } isSelected={ isSelected } />
     </p>
