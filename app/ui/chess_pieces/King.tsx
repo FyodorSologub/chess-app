@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { PiceColors } from "@/app/lib/types";
+import { Cell, Color } from "@/app/lib/types";
 
-const King : React.FC<{ color: PiceColors }> = ( { color } ) : JSX.Element => {
+const King : React.FC<{ color: Color | null }> = ( { color } ) : JSX.Element => {
     const core_root = '/chess_pieces';
     const root = color === 'Black' ? '/black/king.svg' : '/white/king.svg';
     const path = core_root + root;
@@ -10,7 +10,7 @@ const King : React.FC<{ color: PiceColors }> = ( { color } ) : JSX.Element => {
             src={ path }
             width='72'
             height='72'
-            alt={ `The ${color.toLowerCase()} king` }
+            alt={ `The ${color !== null ? color.toLowerCase() : ''} king` }
         />
     );
 };

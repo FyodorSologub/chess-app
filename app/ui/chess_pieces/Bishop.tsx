@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { PiceColors } from "@/app/lib/types";
+import { Cell, Color } from "@/app/lib/types";
 
-const Bishop : React.FC<{ color: PiceColors }> = ( { color } ) : JSX.Element => {
+const Bishop : React.FC<{ color: Color | null }> = ( { color } ) : JSX.Element => {
     const core_root = '/chess_pieces';
     const root = color === 'Black' ? '/black/bishop.svg' : '/white/bishop.svg';
     const path = core_root + root;
@@ -10,7 +10,7 @@ const Bishop : React.FC<{ color: PiceColors }> = ( { color } ) : JSX.Element => 
             src={ path }
             width='72'
             height='72'
-            alt={ `A ${color.toLowerCase()} bishop` }
+            alt={ `A ${color !== null ? color.toLowerCase() : ''} bishop` }
         />
     );
 };

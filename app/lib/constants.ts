@@ -1,103 +1,83 @@
-import { range, getUpperLetter, getCellColor, getRank } from './utils';
 import { 
-    File, Rank, Files, Ranks, Cells, 
-    PieceVariant, PieceVariants, PiceColors, 
-    PieceQuantity, PieceData, DefaultPositions, Pieces
-} from './types';
+    File, Rank, Files, Ranks,  Color, 
+    PieceVariant, DefaultPositions, PieceId,
+    FileOffset, RankOffset, Cells, CellSelected
+} from "./types";
+import { range, getCellColor } from "./utils";
 
-export const files = Object.fromEntries(range(8).map(i => { 
-    return [getUpperLetter(i), { isHovered: false }];
- })) as Files;
+export const FILE_VALUES: File[] = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+export const RANK_VALUES: Rank[] = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
-export const ranks = Object.fromEntries(range(8).map(i => { 
-    return [String(i+1), { isHovered: false }];
- })) as Ranks;
+export const FILES_DEFAULT = Object.fromEntries(
+  FILE_VALUES.map(file => [file as File, { isHovered: false }])
+) as Files;
 
-const cells_raw : Cells = Object.fromEntries(
-    Object.keys(files).map(file => 
-        Object.keys(ranks).map(rank => 
-            [`${file}${rank}`, { isHovered: false, piece: null, pieceColor: null, color: getCellColor(file as File, rank as Rank) }])
-    ).flat()
-);
+export const RANKS_DEFAULT = Object.fromEntries(
+  RANK_VALUES.map(rank => [rank as Rank, { isHovered: false }])
+) as Ranks;
 
-export const pieceVariants = Object.fromEntries(
-    ['Bishop', 'King', 'Knight', 'Pawn', 'Queen', 'Rook'].map(el => [el as PieceVariant, el])
-) as PieceVariants;
+export const COLOR_VALUES: Color[] = ['White', 'Black'];
 
-export const pieceQuantity = Object.fromEntries(
-    Object.keys(pieceVariants).map(variant => {
-        let quantity;
-        switch(variant) {
-            case 'Bishop':
-                quantity = 2;
-                break;
-            case 'King':
-                quantity = 1;
-                break;
-            case 'Knight':
-                quantity = 2;
-                break;
-            case 'Pawn':
-                quantity = 8;
-                break;
-            case 'Queen':
-                quantity = 1;
-                break;
-            case 'Rook':
-                quantity = 2;
-                break;
-        };
-        return [variant, quantity]
-    })
-) as PieceQuantity;
+export const PIECE_VARIANT_VALUES: PieceVariant[] = [
+  'Bishop', 'King', 'Knight', 'Pawn', 'Queen', 'Rook'
+];
 
-export const defaultPositions = Object.fromEntries(
-    Object.keys(pieceVariants).map(variant => {
-        let positions : File[] = [];
-        switch(variant) {
-            case 'Bishop':
-                positions = ['C', 'F'];
-                break;
-            case 'King':
-                positions = ['E'];
-                break;
-            case 'Knight':
-                positions = ['B', 'G'];
-                break;
-            case 'Pawn':
-                positions = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
-                break;
-            case 'Queen':
-                positions = ['D'];
-                break;
-            case 'Rook':
-                positions = ['A', 'H'];
-                break;
-        };
-        return [variant, positions];
-    })
-) as DefaultPositions;
+export const PIECE_ID_VALUES: PieceId = {
+  'Bishop': '2',
+  'King': '1',
+  'Knight': '2',
+  'Pawn': '8',
+  'Queen': '1',
+  'Rook': '2',
+};
 
-export const pieces: Pieces = Object.fromEntries(
-    ['White', 'Black'].flatMap(color =>
-      Object.keys(pieceVariants).flatMap(variant =>
-        range(pieceQuantity[variant as PieceVariant], 1).map(id => {
-          const key = `${color as PiceColors}${variant as PieceVariant}${id as number}`;
-          const value = { 
-            type: variant as PieceVariant, color: color as PiceColors, 
-            isDeposed: false, 
-            file: defaultPositions[variant as PieceVariant][id-1], 
-            rank: getRank(color as PiceColors, variant as PieceVariant), 
-        } as PieceData;
-          return [key, value];
-        })
+export const FILE_OFFSET : FileOffset = {
+  'Bishop' : ['C', 'F'],
+  'King' : ['E'], 
+  'Knight': ['B', 'G'], 
+  'Pawn' : ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'],
+  'Queen' : ['D'],
+  'Rook' : ['A', 'H'],
+};
+
+export const RANK_OFFSET : RankOffset = {
+  'White': '1',
+  'WhitePawn' : '2',
+  'Black': '8',
+  'BlackPawn': '7'
+};
+
+export const DEFAULT_POSITIONS = Object.fromEntries(
+  COLOR_VALUES.flatMap(color =>
+    PIECE_VARIANT_VALUES.flatMap(pieceVariant => 
+      range(Number(PIECE_ID_VALUES[pieceVariant]),1).map(id => 
+        [ `${color}${pieceVariant}${id}` as `${Color}${PieceVariant}${PieceId[PieceVariant]}`, 
+          { file: FILE_OFFSET[pieceVariant][id-1], color: color, type: pieceVariant, id: String(id),
+            rank: pieceVariant !== 'Pawn' ? RANK_OFFSET[color] : RANK_OFFSET[`${color}Pawn`] 
+          } 
+        ]
       )
     )
-) as Pieces;
+  )  
+) as DefaultPositions<PieceVariant>;
 
-Object.values(pieces).forEach(data => {
-    cells_raw[`${data['file'] as File}${data['rank'] as Rank}`].piece = data['type'];
-    cells_raw[`${data['file'] as File}${data['rank'] as Rank}`].pieceColor = data['color'];
+const CELLS_RAW = Object.fromEntries(
+  FILE_VALUES.flatMap(file => 
+    RANK_VALUES.map(rank => 
+      [`${file}${rank}`, { isHovered: false, piece: null, pieceColor: null, 
+        pieceId: null, color: getCellColor(file as File, rank as Rank) }
+      ]
+    )
+  )
+) as Cells;
+
+Object.values(DEFAULT_POSITIONS).forEach(data => {
+  CELLS_RAW[`${data['file'] as File}${data['rank'] as Rank}`].piece = data['type'];
+  CELLS_RAW[`${data['file'] as File}${data['rank'] as Rank}`].pieceColor = data['color'];
+  CELLS_RAW[`${data['file'] as File}${data['rank'] as Rank}`].pieceId = data['id'];
 });
 
-export const cells = { ...cells_raw };
+export const CELLS_DEFAULT = { ...CELLS_RAW };
+export const CELLS_KEYS = Object.keys(CELLS_DEFAULT);
+
+export const CELL_SELECTED_DEFAULT : CellSelected = { file: null, rank: null };

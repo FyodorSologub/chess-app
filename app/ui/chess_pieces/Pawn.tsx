@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Cell, File, PiceColors, Rank } from "@/app/lib/types";
+import { Cell, File, Color, Rank } from "@/app/lib/types";
 import { useState } from "react";
 
 const getMoves = (move : number, rank : Rank, file : File) : string[] => {
@@ -7,11 +7,7 @@ const getMoves = (move : number, rank : Rank, file : File) : string[] => {
     : [ `${file}${Number(rank)+1}` ]
 };
 
-const Pawn : React.FC<Cell & { color: PiceColors }> = ( { color, rank, file } ) : JSX.Element => {
-    const [ move, setMove ] = useState(0);
-
-    console.log(getMoves(move, rank, file));
-
+const Pawn : React.FC<{ color: Color | null }> = ( { color } ) : JSX.Element => {
     const core_root = '/chess_pieces';
     const root = color === 'Black' ? '/black/pawn.svg' : '/white/pawn.svg';
     const path = core_root + root;
@@ -20,7 +16,7 @@ const Pawn : React.FC<Cell & { color: PiceColors }> = ( { color, rank, file } ) 
             src={ path }
             width='72'
             height='72'
-            alt={ `A ${color.toLowerCase()} pawn` }
+            alt={ `A ${color !== null ? color.toLowerCase() : ''} pawn` }
         />
     );
 };

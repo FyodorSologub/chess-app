@@ -3,7 +3,7 @@
 import { twMerge } from 'tailwind-merge'
 import { File, Rank, Files, Ranks, Cells, Cell } from '@/app/lib/types';
 import { useAppSelector, dispatch_ } from '@/app/redux/store';
-import { hover, unhover, toggleSelect } from '@/app/redux/slices/chess-board-slice';
+import { hover, unhover, toggleSelect, movePiece } from '@/app/redux/slices/chess-board-slice';
 import PieceRenderer from './PieceRenderer';
 import { getCellColorClasses } from '@/app/lib/utils';
 import React, { useState } from 'react';

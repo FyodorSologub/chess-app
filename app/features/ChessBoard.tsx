@@ -2,7 +2,7 @@
 import { File, Rank } from "../lib/types";
 
 // constants
-import { files, ranks, cells } from "../lib/constants";
+import { FILE_VALUES, RANK_VALUES, CELLS_KEYS } from "../lib/constants";
 
 // components
 import BoardFile from "../ui/chess_board/BoardFile";
@@ -10,12 +10,10 @@ import BoardRank from "../ui/chess_board/BoardRank";
 import ChessCell from "../ui/chess_board/ChessCell";
 
 // arrays of Jsx elements
-const boardRanks: JSX.Element[] = Object.keys(ranks).reverse().map(rank => <BoardRank key={rank} rank={rank as Rank} />);
-const boardFiles: JSX.Element[] = Object.entries(files).map(([file, _]) => <BoardFile key={file} file={file as File} />);
+const boardRanks: JSX.Element[] = RANK_VALUES.reverse().map(rank => <BoardRank key={rank} rank={rank as Rank} />);
+const boardFiles: JSX.Element[] = FILE_VALUES.map(file => <BoardFile key={file} file={file as File} />);
 
-const cellsArray = Object.keys(cells);
-
-const sortedCellsArray = cellsArray.sort((a, b) => {
+const sortedCellsArray = CELLS_KEYS.sort((a, b) => {
   const fileA = a[0];
   const rankA = parseInt(a[1]);
 
