@@ -65,7 +65,7 @@ const CELLS_RAW = Object.fromEntries(
   FILE_VALUES.flatMap(file => 
     RANK_VALUES.map(rank => 
       [`${file}${rank}`, { isHovered: false, isSelected: false, piece: null, pieceColor: null, 
-        pieceId: null, legitPlaceToMove: false, color: getCellColor(file as File, rank as Rank) }
+        pieceId: null, legitPlaceToMove: false, showMove: false, color: getCellColor(file as File, rank as Rank) }
       ]
     )
   )

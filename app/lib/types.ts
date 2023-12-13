@@ -27,7 +27,7 @@ export type Piece<T extends PieceVariant> = {
 
 export type CellData = { 
     isHovered: boolean, piece: PieceVariant | null, 
-    pieceColor: Color | null, readonly color: Color,
+    pieceColor: Color | null, readonly color: Color, showMove: boolean,
     pieceId: string | null, isSelected: boolean, legitPlaceToMove: boolean,
 };
 export type Cells = { [ key in `${File}${Rank}` ] : CellData };

@@ -33,18 +33,26 @@ const handleMovePiece = ( state : InitialState, action: PayloadAction<PieceMoveD
     state.stage = 'default';
 };
 
+const drawLegitMoves_ = ( state : InitialState, action: PayloadAction<Cell[]> ) : void => {
+    action.payload.forEach(cell => state.cells[`${cell.file}${cell.rank}`]['showMove'] = true);
+};
+
+const clearLegitMoves_ = ( state : InitialState ) : void => {
+    Object.keys(state.cells).forEach(key => state.cells[`${key[0] as File}${key[1] as Rank}`]['showMove'] = false);
+};
+
 const selectCell = ( state: InitialState, action: PayloadAction<Cell> ) : void => {
     switch(state.selectedCell.file === action.payload.file && state.selectedCell.rank === action.payload.rank) {
         case true:
             state.selectedCell = { file : null, rank: null, piece : null, pieceColor : null, pieceId : null };
             state.stage = 'default';
-            console.log(`stage is: ${state.stage}`);
+            //console.log(`stage is: ${state.stage}`);
             break;
         case false:
             const cellData = state.cells[`${action.payload.file}${action.payload.rank}`];
             state.selectedCell = { file : action.payload.file, rank: action.payload.rank, piece : cellData.piece, pieceColor : cellData.pieceColor, pieceId : cellData.pieceId };
             state.stage = 'moving';
-            console.log(`stage is: ${state.stage}`);
+            //console.log(`stage is: ${state.stage}`);
             break;
     };
     //state.cells[`${action.payload.file}${action.payload.rank}`]['isSelected'] = !state.cells[`${action.payload.file}${action.payload.rank}`]['isSelected'];
@@ -58,8 +66,10 @@ export const chessBoardReducer = createSlice({
         unhover: unhoverCell,
         toggleSelect: selectCell,
         movePiece : handleMovePiece,
+        drawLegitMoves : drawLegitMoves_,
+        clearLegitMoves : clearLegitMoves_,
     },
 });
 
-export const { hover, unhover, toggleSelect, movePiece } = chessBoardReducer.actions;
+export const { hover, unhover, toggleSelect, movePiece, drawLegitMoves, clearLegitMoves } = chessBoardReducer.actions;
 export default chessBoardReducer.reducer;
