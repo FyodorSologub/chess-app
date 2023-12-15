@@ -10,9 +10,18 @@ export const getCellColor = ( file : File, rank : Rank ) : Color =>
 export const getCellColorClasses = ( color: Color ) : string => 
      color === 'White' ? 'bg-piecesLight-custom' : 'bg-piecesDark-custom';
 
-export const getPawnMoves = ( position : Cell, piece: PieceVariant, cells: Cells ) : Cell[] | null => {
-     const legitPosition = Number(position.rank) < 8 ? {file: position.file, rank: String(Number(position.rank)+1) } as Cell : null;
-     return legitPosition !== null ? [legitPosition] : null;
+export const getPawnMoves = ( position : Cell, piece: PieceVariant, color: Color, cells: Cells ) : Cell[] | null => {
+     const legitPosition =  Number(position.rank) < 8 && color === 'White' 
+     ? {file: position.file, rank: String(Number(position.rank)+1) } as Cell 
+     : Number(position.rank) > 1 && color === 'Black' 
+          ? {file: position.file, rank: String(Number(position.rank)-1) } as Cell
+          : null
+     
+     if (legitPosition !== null) {
+          if (cells[`${legitPosition.file as File}${legitPosition?.rank as Rank}`].piece === null) {
+               return [legitPosition];
+          }
+     } return null;
 };
 
 // export const sortCells = ( a : string, b : string ) : 

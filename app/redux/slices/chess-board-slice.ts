@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { File, Rank, Files, Ranks, Cells, Cell, CellSelected, InitialState, PieceMoveData } from '@/app/lib/types';
 import { FILES_DEFAULT, RANKS_DEFAULT, CELLS_DEFAULT, CELL_SELECTED_DEFAULT, SELECTED_CELL_COORDINATES, DEFAULT_STAGE } from '@/app/lib/constants';
+import { getPawnMoves } from '@/app/lib/utils';
 
 const initialState : InitialState = {
     files: FILES_DEFAULT,
@@ -31,6 +32,7 @@ const handleMovePiece = ( state : InitialState, action: PayloadAction<PieceMoveD
     state.cells[`${action.payload.newCell.file}${action.payload.newCell.rank}`]['pieceId'] = action.payload.pieceId;
     state.selectedCell = { file : null, rank: null, piece : null, pieceColor : null, pieceId : null };
     state.stage = 'default';
+    Object.keys(state.cells).forEach(key => state.cells[`${key[0] as File}${key[1] as Rank}`]['showMove'] = false);
 };
 
 const drawLegitMoves_ = ( state : InitialState, action: PayloadAction<Cell[]> ) : void => {
@@ -46,16 +48,22 @@ const selectCell = ( state: InitialState, action: PayloadAction<Cell> ) : void =
         case true:
             state.selectedCell = { file : null, rank: null, piece : null, pieceColor : null, pieceId : null };
             state.stage = 'default';
-            //console.log(`stage is: ${state.stage}`);
+            Object.keys(state.cells).forEach(key => state.cells[`${key[0] as File}${key[1] as Rank}`]['showMove'] = false);
             break;
         case false:
+            Object.keys(state.cells).forEach(key => state.cells[`${key[0] as File}${key[1] as Rank}`]['showMove'] = false);
             const cellData = state.cells[`${action.payload.file}${action.payload.rank}`];
             state.selectedCell = { file : action.payload.file, rank: action.payload.rank, piece : cellData.piece, pieceColor : cellData.pieceColor, pieceId : cellData.pieceId };
             state.stage = 'moving';
-            //console.log(`stage is: ${state.stage}`);
+            if (cellData.piece !== null && cellData.pieceColor !== null) {
+                const moves = getPawnMoves({ file: action.payload.file, rank: action.payload.rank }, cellData.piece, cellData.pieceColor, state.cells);
+                moves !== null && drawLegitMoves(moves);
+                if (moves !== null) {
+                    moves.forEach(cell => state.cells[`${cell.file}${cell.rank}`]['showMove'] = true);
+                }
+            }
             break;
     };
-    //state.cells[`${action.payload.file}${action.payload.rank}`]['isSelected'] = !state.cells[`${action.payload.file}${action.payload.rank}`]['isSelected'];
 };
 
 export const chessBoardReducer = createSlice({

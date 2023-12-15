@@ -32,27 +32,21 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
   );
 
   const handleMove = () => {
-    if(stage === 'moving' && cellHasNotFigure && XXX.piece !== null && XXX.file !== null && XXX.rank !== null) {
-      const moves = getPawnMoves({ file: XXX.file, rank: XXX.rank }, XXX.piece, cells);
-      //console.log(moves)
-      moves !== null && console.log(moves[0].file === file && moves[0].rank === rank)
-      if(moves !== null && moves[0].file === file && moves[0].rank === rank) {
+    if(stage === 'moving' && cellHasNotFigure && XXX.piece !== null && XXX.file !== null && XXX.rank !== null && XXX.pieceColor !== null) {
+      if(XXX.piece === 'Pawn') {
+        const moves = getPawnMoves({ file: XXX.file, rank: XXX.rank }, XXX.piece, XXX.pieceColor, cells);
+        if(moves !== null && moves[0].file === file && moves[0].rank === rank) {
+          movePiece_();
+        }
+      } else {
         movePiece_();
       }
     };
   };
 
-  const handleSelect = () => {
-    console.log(XXX)
-    if(XXX.piece !== null && XXX.file !== null && XXX.rank !== null) {
-      const moves = getPawnMoves({ file: XXX.file, rank: XXX.rank }, XXX.piece, cells);
-      moves !== null && drawLegitMoves(moves);
-    };
-  };
-
   const handleClick = () => {
     if(stage === 'moving' && cellHasNotFigure) handleMove(); 
-    if(stage === 'default' || cellHasNotFigure === false) {handleToggleSelect(); handleSelect();}
+    if(stage === 'default' || cellHasNotFigure === false) {handleToggleSelect();}
   };
 
   return (
@@ -61,8 +55,7 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
       onClick={ handleClick }
       className={ className }>
       <PieceRenderer file={ file } rank={ rank } isSelected={ isSelected } />
-      {/*`${file}${rank}`*/}
-      { YYY.showMove && 'Y' }
+      { YYY.showMove && 'X' }
     </p>
   );
 };
