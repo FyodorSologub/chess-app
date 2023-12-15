@@ -26,9 +26,10 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
   const moveData : PieceMoveData = { newCell:{ file, rank }, prevCell:{ file: selectedCellFile, rank: selectedCellRank}, piece: XXX.piece, pieceColor: XXX.pieceColor, pieceId: XXX.pieceId };
   const movePiece_ = () => dispatch(movePiece(moveData));
   const className = twMerge(
-    'relative aspect-square col-span-1 row-span-1 flex justify-center items-center p-1',
+    'relative aspect-square col-span-1 row-span-1 flex justify-center items-center p-1 hover:cursor-pointer',
     getCellColorClasses(color),
-    isSelected === true ? 'bg-selectedCell-custom' : '',
+    isSelected === true ? 'bg-slate-600' : '',
+    YYY.showMove === true ? 'hover:border-2 hover:border-slate-500' : '',
   );
 
   const handleMove = () => {
@@ -44,7 +45,7 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
           movePiece_();
         }
       } else { 
-        movePiece_();
+        //movePiece_();
       }
     };
   };
@@ -60,7 +61,8 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
       onClick={ handleClick }
       className={ className }>
       <PieceRenderer file={ file } rank={ rank } isSelected={ isSelected } />
-      { YYY.showMove && 'X' }
+      
+      { YYY.showMove && <span className='w-3 h-3 bg-slate-800 opacity-50 rounded-full'></span> }
     </p>
   );
 };

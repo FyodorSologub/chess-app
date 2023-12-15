@@ -9,7 +9,7 @@ const BoardFile = ({ file, ...rest }: { file: File } & React.HTMLProps<HTMLParag
     const className = twMerge(
         'flex justify-center items-center',
         'text-velvetBlack-custom col-span-1 row-span-1 transition-all',
-        isHovered === true ? 'font-md' : 'antialiased font-thin'
+        isHovered === true ? 'font-md text-slate-900' : 'antialiased font-thin'
     );
 
     return <p className={ className }>{ file }</p>;

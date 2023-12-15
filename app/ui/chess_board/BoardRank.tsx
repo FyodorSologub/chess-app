@@ -9,7 +9,7 @@ const BoardRank = ({ rank, ...rest }: { rank: Rank } & React.HTMLProps<HTMLParag
     const className = twMerge(
         'flex justify-center items-center transition-all',
         'text-velvetBlack-custom col-span-1 row-span-1',
-        isHovered === true ? 'font-md' : 'antialiased font-thin'
+        isHovered === true ? 'font-md text-slate-900' : 'antialiased font-thin'
     );
 
     return <p className={ className }>{ rank }</p>;

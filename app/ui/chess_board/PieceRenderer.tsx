@@ -25,7 +25,7 @@ const PieceRenderer : React.FC<Cell & { isSelected : Boolean }> = ( { file, rank
     const piece = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].piece);
     const pieceColor = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceColor);
     const pieceId = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceId);
-    return <span><Piece piece={piece} color={pieceColor} file={file} rank={rank} /></span>;
+    return <><Piece piece={piece} color={pieceColor} file={file} rank={rank} /></>;
 };
 
 export default PieceRenderer;
