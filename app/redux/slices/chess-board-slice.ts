@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { File, Rank, Files, Ranks, Cells, Cell, CellSelected, InitialState, PieceMoveData } from '@/app/lib/types';
 import { FILES_DEFAULT, RANKS_DEFAULT, CELLS_DEFAULT, CELL_SELECTED_DEFAULT, SELECTED_CELL_COORDINATES, DEFAULT_STAGE } from '@/app/lib/constants';
-import { getPawnMoves } from '@/app/lib/utils';
+import { getPawnMoves, getQueenMoves } from '@/app/lib/utils';
 
 const initialState : InitialState = {
     files: FILES_DEFAULT,
@@ -23,7 +23,7 @@ const unhoverCell = ( state : InitialState, action: PayloadAction<Cell> ) : void
 const handleMovePiece = ( state : InitialState, action: PayloadAction<PieceMoveData> ) : void => {
     if (action.payload.prevCell.file === null || action.payload.prevCell.rank === null) return;
     if (action.payload.newCell.file === null || action.payload.newCell.rank === null) return;
-    console.log(`${action.payload.pieceColor}${action.payload.piece}${action.payload.pieceId} from ${action.payload.prevCell.file}${action.payload.prevCell.rank} to ${action.payload.newCell.file}${action.payload.newCell.rank}`)
+    //console.log(`${action.payload.pieceColor}${action.payload.piece}${action.payload.pieceId} from ${action.payload.prevCell.file}${action.payload.prevCell.rank} to ${action.payload.newCell.file}${action.payload.newCell.rank}`)
     state.cells[`${action.payload.prevCell.file}${action.payload.prevCell.rank}`]['piece'] = null;
     state.cells[`${action.payload.prevCell.file}${action.payload.prevCell.rank}`]['pieceColor'] = null; 
     state.cells[`${action.payload.prevCell.file}${action.payload.prevCell.rank}`]['pieceId'] = null; 
@@ -56,10 +56,20 @@ const selectCell = ( state: InitialState, action: PayloadAction<Cell> ) : void =
             state.selectedCell = { file : action.payload.file, rank: action.payload.rank, piece : cellData.piece, pieceColor : cellData.pieceColor, pieceId : cellData.pieceId };
             state.stage = 'moving';
             if (cellData.piece !== null && cellData.pieceColor !== null) {
-                const moves = getPawnMoves({ file: action.payload.file, rank: action.payload.rank }, cellData.piece, cellData.pieceColor, state.cells);
-                moves !== null && drawLegitMoves(moves);
-                if (moves !== null) {
-                    moves.forEach(cell => state.cells[`${cell.file}${cell.rank}`]['showMove'] = true);
+                if (cellData.piece === 'Pawn') {
+                    const moves = getPawnMoves({ file: action.payload.file, rank: action.payload.rank }, cellData.piece, cellData.pieceColor, state.cells);
+                    moves !== null && drawLegitMoves(moves);
+                    if (moves !== null) {
+                        moves.forEach(cell => state.cells[`${cell.file}${cell.rank}`]['showMove'] = true);
+                    }
+                }
+                if (cellData.piece === 'Queen') {
+                    const moves = getQueenMoves({ file: action.payload.file, rank: action.payload.rank }, state.cells);
+                    //console.log(moves)
+                    moves !== null && drawLegitMoves(moves);
+                    if (moves !== null) {
+                        moves.forEach(cell => state.cells[`${cell.file}${cell.rank}`]['showMove'] = true);
+                    }
                 }
             }
             break;

@@ -5,7 +5,7 @@ import { File, Rank, Files, Ranks, Cells, Cell, PieceMoveData } from '@/app/lib/
 import { useAppSelector, dispatch_ } from '@/app/redux/store';
 import { hover, unhover, toggleSelect, movePiece, drawLegitMoves } from '@/app/redux/slices/chess-board-slice';
 import PieceRenderer from './PieceRenderer';
-import { getCellColorClasses, getPawnMoves } from '@/app/lib/utils';
+import { getCellColorClasses, getPawnMoves, getQueenMoves } from '@/app/lib/utils';
 import React, { useState } from 'react';
 
 const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
@@ -38,7 +38,12 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
         if(moves !== null && moves[0].file === file && moves[0].rank === rank) {
           movePiece_();
         }
-      } else {
+      } if(XXX.piece === 'Queen') {
+        const moves = getQueenMoves({ file: XXX.file, rank: XXX.rank }, cells);
+        if(moves !== null && Object.values(moves).map(data => `${data.file}${data.rank}`).includes(`${file}${rank}`)) {
+          movePiece_();
+        }
+      } else { 
         movePiece_();
       }
     };

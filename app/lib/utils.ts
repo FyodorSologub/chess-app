@@ -24,6 +24,53 @@ export const getPawnMoves = ( position : Cell, piece: PieceVariant, color: Color
      } return null;
 };
 
+export const getQueenMoves = ( initialPosition : Cell, cells : Cells ) : Cell[] | null => {
+     const result : Cell[] = [];
+
+     for (let i = 0; i < FILE_VALUES.length; i++) { 
+          if(`${FILE_VALUES[i]}${initialPosition.rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if( cells[`${FILE_VALUES[i]}${initialPosition.rank}`].piece === null ) {
+                    result.push({ file: FILE_VALUES[i], rank: initialPosition.rank });
+               } else {
+                    break;
+               }
+          };
+     };
+     for (let i = 0; i < RANK_VALUES.length; i++) { 
+          //console.log(`${initialPosition.file}${RANK_VALUES[i]}`)
+          if(`${initialPosition.file}${RANK_VALUES[i]}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].piece === null ) {
+                    result.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
+               } else {
+                    break;
+               }
+          };
+     };
+
+     /*
+     for (let i = 0; i < Object.keys(cells).length; i++) {
+          //console.log(Object.keys(cells)[i])
+          if (Object.keys(cells)[i] as `${File}${Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if ( cells[Object.keys(cells)[i] as `${File}${Rank}`].piece === null ) {
+                    result.push({ file: Object.keys(cells)[i][0] as File, rank: Object.keys(cells)[i][1] as Rank })
+               } else {
+                    break;
+               }
+          };
+     };
+     */
+
+     return result.length > 0 ? result : null;
+};
+
+export const getRookMoves = ( position : Cell, piece : PieceVariant, color : Color, cells : Cells ) : Cell[] | null => {
+     const legitPositionsForward = '';
+     const legitPositionsbackwards = '';
+     const legitPositionsRight = '';
+     const legitPositionsLeft = '';
+     return null;
+};
+
 // export const sortCells = ( a : string, b : string ) : 
 
 // Оставить?
