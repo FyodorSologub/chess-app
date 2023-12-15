@@ -27,7 +27,8 @@ export const getPawnMoves = ( position : Cell, piece: PieceVariant, color: Color
 export const getQueenMoves = ( initialPosition : Cell, cells : Cells ) : Cell[] | null => {
      const result : Cell[] = [];
 
-     for (let i = 0; i < FILE_VALUES.length; i++) { 
+     // horizontal
+     for (let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) { 
           if(`${FILE_VALUES[i]}${initialPosition.rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
                if( cells[`${FILE_VALUES[i]}${initialPosition.rank}`].piece === null ) {
                     result.push({ file: FILE_VALUES[i], rank: initialPosition.rank });
@@ -36,8 +37,18 @@ export const getQueenMoves = ( initialPosition : Cell, cells : Cells ) : Cell[] 
                }
           };
      };
-     for (let i = 0; i < RANK_VALUES.length; i++) { 
-          //console.log(`${initialPosition.file}${RANK_VALUES[i]}`)
+     for (let i = FILE_VALUES.indexOf(initialPosition.file); i >= 0; i--) { 
+          if(`${FILE_VALUES[i]}${initialPosition.rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if( cells[`${FILE_VALUES[i]}${initialPosition.rank}`].piece === null ) {
+                    result.push({ file: FILE_VALUES[i], rank: initialPosition.rank });
+               } else {
+                    break;
+               }
+          };
+     };
+
+     // vertical
+     for (let i = RANK_VALUES.indexOf(initialPosition.rank); i < RANK_VALUES.length; i++) { 
           if(`${initialPosition.file}${RANK_VALUES[i]}` !== `${initialPosition.file}${initialPosition.rank}`) {
                if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].piece === null ) {
                     result.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
@@ -46,6 +57,37 @@ export const getQueenMoves = ( initialPosition : Cell, cells : Cells ) : Cell[] 
                }
           };
      };
+     for (let i = RANK_VALUES.indexOf(initialPosition.rank); i >= 0; i--) { 
+          if(`${initialPosition.file}${RANK_VALUES[i]}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].piece === null ) {
+                    result.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
+               } else {
+                    break;
+               }
+          };
+     };
+
+     // diagonal
+     for(let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) {
+          if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].piece === null ) {
+                    result.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank });
+               } else {
+                    break;
+               }
+          };
+     };
+     for(let i = FILE_VALUES.indexOf(initialPosition.file); i >= 0; i--) {
+          //console.log(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i), `${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i + FILE_VALUES.indexOf(initialPosition.file))) as Rank}`)
+          if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].piece === null ) {
+                    result.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank});
+               } else {
+                    break;
+               }
+          };
+     };
+
 
      /*
      for (let i = 0; i < Object.keys(cells).length; i++) {
