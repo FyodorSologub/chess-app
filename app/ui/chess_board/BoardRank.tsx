@@ -2,7 +2,7 @@
 
 import { twMerge } from 'tailwind-merge'
 import { useAppSelector } from '@/app/redux/store';
-import { File, Rank, Files, Ranks, Cells, Cell } from '@/app/lib/types';
+import { File, Rank, Files, Ranks, Cells, Cell } from '@/app/lib/types/index';
 
 const BoardRank = ({ rank, ...rest }: { rank: Rank } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
     const isHovered = useAppSelector(state => state.chessBoardReducer.ranks[rank].isHovered);

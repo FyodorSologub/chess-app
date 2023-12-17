@@ -23,9 +23,10 @@ const Piece : React.FC<{ piece : PieceVariant | null, color : Color | null, file
 
 const PieceRenderer : React.FC<Cell & { isSelected : Boolean }> = ( { file, rank, isSelected } ) : JSX.Element => {
     const piece = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].piece);
+    const legitPlaceToAttack = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].legitPlaceToAttack);
     const pieceColor = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceColor);
     const pieceId = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].pieceId);
-    return <><Piece piece={piece} color={pieceColor} file={file} rank={rank} /></>;
+    return piece !== null ? <span className={ legitPlaceToAttack ? 'bg-gradient-custom' : '' }><Piece piece={piece} color={pieceColor} file={file} rank={rank} /></span> : <></>;
 };
 
 export default PieceRenderer;

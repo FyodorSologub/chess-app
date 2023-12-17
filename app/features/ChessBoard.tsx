@@ -1,8 +1,8 @@
 // types
-import { File, Rank } from "../lib/types";
+import { File, Rank } from "@/app/lib/types/index";
 
 // constants
-import { FILE_VALUES, RANK_VALUES, CELLS_KEYS } from "../lib/constants";
+import { FILE_VALUES, RANK_VALUES, CELLS_KEYS } from "@/app/lib/constants/index";
 
 // components
 import BoardFile from "../ui/chess_board/BoardFile";

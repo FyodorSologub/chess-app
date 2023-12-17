@@ -1,7 +1,7 @@
 "use client";
 
 import { twMerge } from 'tailwind-merge'
-import { File, Rank, Files, Ranks, Cells, Cell } from '@/app/lib/types';
+import { File, Rank, Files, Ranks, Cells, Cell } from '@/app/lib/types/index';
 import { useAppSelector } from '@/app/redux/store';
 
 const BoardFile = ({ file, ...rest }: { file: File } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
