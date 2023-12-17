@@ -26,7 +26,8 @@ const handleMovePiece = ( state : InitialState<PieceVariant>, action: PayloadAct
     state.cells[`${action.payload.prevCell.file}${action.payload.prevCell.rank}`].hasPiece = false;
     //state.cells[`${action.payload.prevCell.file}${action.payload.prevCell.rank}`]['piece'] = null;
     //state.cells[`${action.payload.prevCell.file}${action.payload.prevCell.rank}`]['pieceColor'] = null; 
-    //state.cells[`${action.payload.prevCell.file}${action.payload.prevCell.rank}`]['pieceId'] = null; 
+    //state.cells[`${action.payload.prevCell.file}${action.payload.prevCell.rank}`]['pieceId'] = null;
+    state.cells[`${action.payload.newCell.file}${action.payload.newCell.rank}`].hasPiece = true;  
     state.cells[`${action.payload.newCell.file}${action.payload.newCell.rank}`]['piece'] = action.payload.piece; 
     state.cells[`${action.payload.newCell.file}${action.payload.newCell.rank}`]['pieceColor']  = action.payload.pieceColor;
     state.cells[`${action.payload.newCell.file}${action.payload.newCell.rank}`]['pieceId'] = action.payload.pieceId;
@@ -59,7 +60,7 @@ const selectCell = ( state: InitialState<PieceVariant>, action: PayloadAction<Ce
             const cellData = state.cells[`${action.payload.file}${action.payload.rank}`];
             state.selectedCell = { noCellSelected: false, file : action.payload.file, rank: action.payload.rank, piece : cellData.piece, pieceColor : cellData.pieceColor, pieceId : cellData.pieceId };
             state.stage = 'moving';
-            if (cellData.piece !== null && cellData.pieceColor !== undefined) {
+            if (cellData.piece !== undefined && cellData.pieceColor !== undefined) {
                 if (cellData.piece === 'Pawn') {
                     const moves = getPawnMoves({ file: action.payload.file, rank: action.payload.rank }, cellData.piece, cellData.pieceColor, state.cells);
                     //moves !== null && drawLegitMoves(moves);

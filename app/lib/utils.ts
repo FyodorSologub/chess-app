@@ -11,14 +11,15 @@ export const getCellColorClasses = ( color: Color ) : string =>
      color === 'White' ? 'bg-piecesLight-custom' : 'bg-piecesDark-custom';
 
 export const getPawnMoves = <P extends PieceVariant>( position : Cell, piece: PieceVariant, color: Color, cells: Cells<P> ) : Cell[] | null => {
-     const legitPosition =  Number(position.rank) < 8 && color === 'White' 
+    //console.log(position, piece, color, color, cells)
+     const legitPosition =  Number(position.rank) < 8 && color === 'White'
      ? {file: position.file, rank: String(Number(position.rank)+1) } as Cell 
      : Number(position.rank) > 1 && color === 'Black' 
           ? {file: position.file, rank: String(Number(position.rank)-1) } as Cell
           : null
      
      if (legitPosition !== null) {
-          if (cells[`${legitPosition.file as File}${legitPosition?.rank as Rank}`].piece === null) {
+          if (cells[`${legitPosition.file as File}${legitPosition?.rank as Rank}`].hasPiece === false) {
                return [legitPosition];
           }
      } return null;
@@ -30,7 +31,7 @@ export const getQueenMoves = <P extends PieceVariant>( initialPosition : Cell, c
      // horizontal
      for (let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) { 
           if(`${FILE_VALUES[i]}${initialPosition.rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-               if( cells[`${FILE_VALUES[i]}${initialPosition.rank}`].piece === null ) {
+               if( cells[`${FILE_VALUES[i]}${initialPosition.rank}`].hasPiece === false ) {
                     result.push({ file: FILE_VALUES[i], rank: initialPosition.rank });
                } else {
                     break;
@@ -39,7 +40,7 @@ export const getQueenMoves = <P extends PieceVariant>( initialPosition : Cell, c
      };
      for (let i = FILE_VALUES.indexOf(initialPosition.file); i >= 0; i--) { 
           if(`${FILE_VALUES[i]}${initialPosition.rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-               if( cells[`${FILE_VALUES[i]}${initialPosition.rank}`].piece === null ) {
+               if( cells[`${FILE_VALUES[i]}${initialPosition.rank}`].hasPiece === false ) {
                     result.push({ file: FILE_VALUES[i], rank: initialPosition.rank });
                } else {
                     break;
@@ -50,7 +51,7 @@ export const getQueenMoves = <P extends PieceVariant>( initialPosition : Cell, c
      // vertical
      for (let i = RANK_VALUES.indexOf(initialPosition.rank); i < RANK_VALUES.length; i++) { 
           if(`${initialPosition.file}${RANK_VALUES[i]}` !== `${initialPosition.file}${initialPosition.rank}`) {
-               if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].piece === null ) {
+               if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece === false ) {
                     result.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
                } else {
                     break;
@@ -59,7 +60,7 @@ export const getQueenMoves = <P extends PieceVariant>( initialPosition : Cell, c
      };
      for (let i = RANK_VALUES.indexOf(initialPosition.rank); i >= 0; i--) { 
           if(`${initialPosition.file}${RANK_VALUES[i]}` !== `${initialPosition.file}${initialPosition.rank}`) {
-               if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].piece === null ) {
+               if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece === false ) {
                     result.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
                } else {
                     break;
@@ -70,7 +71,7 @@ export const getQueenMoves = <P extends PieceVariant>( initialPosition : Cell, c
      // diagonal
      for(let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) {
           if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-               if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].piece === null ) {
+               if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === false ) {
                     result.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank });
                } else {
                     break;
@@ -80,7 +81,7 @@ export const getQueenMoves = <P extends PieceVariant>( initialPosition : Cell, c
      for(let i = FILE_VALUES.indexOf(initialPosition.file); i >= 0; i--) {
           if(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i) >= 1) {
                if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-                    if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].piece === null) {
+                    if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === false) {
                          result.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank })
                     } else {
                          break;
@@ -91,7 +92,7 @@ export const getQueenMoves = <P extends PieceVariant>( initialPosition : Cell, c
 
      for(let i = FILE_VALUES.indexOf(initialPosition.file); i >= 0; i--) {
           if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-               if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].piece === null ) {
+               if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === false ) {
                     result.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank});
                } else {
                     break;
@@ -101,7 +102,7 @@ export const getQueenMoves = <P extends PieceVariant>( initialPosition : Cell, c
      for(let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) {
           if(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file)) >= 1) {
                if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-                    if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].piece === null ) {
+                    if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === false ) {
                          result.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank});
                     } else {
                          break;

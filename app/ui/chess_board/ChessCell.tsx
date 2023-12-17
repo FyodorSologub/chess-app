@@ -13,10 +13,11 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
   const color = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].color);
   const selectedCellRank = useAppSelector(state => state.chessBoardReducer.selectedCell.rank);
   const selectedCellFile = useAppSelector(state => state.chessBoardReducer.selectedCell.file);
+  const noCellSelected = useAppSelector(state => state.chessBoardReducer.selectedCell.noCellSelected);
   const XXX = useAppSelector(state => state.chessBoardReducer.selectedCell);
   const cellHasNotFigure = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].hasPiece) === false;
   const stage = useAppSelector(state => state.chessBoardReducer.stage);
-  const isSelected = selectedCellRank === rank && selectedCellFile == file;
+  const isSelected = selectedCellRank === rank && selectedCellFile == file && noCellSelected === false;
   const cells = useAppSelector(state => state.chessBoardReducer.cells);
   const YYY = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`]);
   const dispatch = dispatch_();
@@ -35,13 +36,14 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
   const movePiece_ = () => dispatch(movePiece(moveData));
   
   const handleMove = () => {
-    if(stage === 'moving' && cellHasNotFigure && XXX.piece !== null && XXX.file !== null && XXX.rank !== null && XXX.pieceColor !== null) {
-      if(XXX.piece === 'Pawn' && XXX.file && XXX.rank && XXX.pieceColor) {
+    //console.log(stage === 'moving', cellHasNotFigure,  XXX.piece !== null && XXX.file !== null && XXX.rank !== null && XXX.pieceColor !== null)
+    if(stage === 'moving' && cellHasNotFigure && XXX.file !== undefined && XXX.rank !== undefined && XXX.pieceColor !== undefined) {
+      if(XXX.piece === 'Pawn') {
         const moves = getPawnMoves({ file: XXX.file, rank: XXX.rank }, XXX.piece, XXX.pieceColor, cells);
         if(moves !== null && moves[0].file === file && moves[0].rank === rank) {
           movePiece_();
         }
-      } if(XXX.piece === 'Queen' && XXX.file && XXX.rank && XXX.pieceColor) {
+      } if(XXX.piece === 'Queen') {
         const moves = getQueenMoves({ file: XXX.file, rank: XXX.rank }, cells);
         if(moves !== null && Object.values(moves).map(data => `${data.file}${data.rank}`).includes(`${file}${rank}`)) {
           movePiece_();
@@ -61,9 +63,9 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
     <p 
       onMouseEnter={ handleHover } onMouseLeave={ handleUnhover }
       onClick={ handleClick }
-      className={ className }>
-      <PieceRenderer file={ file } rank={ rank } isSelected={ isSelected } />
-      
+      className={ className }
+    >
+      { YYY.hasPiece === true ? <PieceRenderer file={ file } rank={ rank } isSelected={ isSelected } /> : <></> }
       { YYY.showMove && <span className='w-3 h-3 bg-slate-800 opacity-50 rounded-full'></span> }
     </p>
   );
