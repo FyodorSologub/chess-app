@@ -1,6 +1,6 @@
 import * as Types from '@/app/lib/types/index';
 import * as Constants from './index';
-import { range, getCellColor } from "@/app/lib/utils";
+import { range, getCellColor } from "@/app/lib/utils/index";
 
 export const DEFAULT_POSITIONS = Object.fromEntries(
     Constants.COLOR_VALUES.flatMap(color =>

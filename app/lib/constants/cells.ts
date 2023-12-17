@@ -1,6 +1,6 @@
 import * as Types from '@/app/lib/types/index';
 import * as Constants from './index';
-import { range, getCellColor } from "@/app/lib/utils";
+import { range, getCellColor } from "@/app/lib/utils/index";
 
 const CELLS_RAW: Types.Cells<Types.PieceVariant> = Object.fromEntries(
     Constants.FILE_VALUES.flatMap(file =>

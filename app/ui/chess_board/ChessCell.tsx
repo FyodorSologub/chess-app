@@ -5,7 +5,7 @@ import { File, Rank, Files, Ranks, Cells, Cell, PieceMoveData, PieceVariant } fr
 import { useAppSelector, dispatch_ } from '@/app/redux/store';
 import { hover, unhover, toggleSelect, movePiece } from '@/app/redux/slices/chess-board-slice';
 import PieceRenderer from './PieceRenderer';
-import { getCellColorClasses, getPawnMoves, getQueenMoves } from '@/app/lib/utils';
+import { getCellColorClasses, getPawnMoves, getQueenMoves, getRookMoves, getBishopMoves } from '@/app/lib/utils/index';
 import React, { useState } from 'react';
 
 const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
@@ -30,6 +30,7 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
     getCellColorClasses(color),
     isSelected === true ? 'bg-slate-600' : '',
     YYY.showMove === true ? 'hover:border-2 hover:border-slate-500' : '',
+    'relative'
   );
 
   const moveData : PieceMoveData<PieceVariant> = { newCell:{ file, rank }, prevCell:{ file: selectedCellFile ? selectedCellFile : 'A', rank: selectedCellRank ? selectedCellRank : '1'}, piece: XXX.piece ? XXX.piece : 'Bishop', pieceColor: XXX.pieceColor ? XXX.pieceColor : 'Black', pieceId: XXX.pieceId ? XXX.pieceId : '1' };
@@ -43,13 +44,21 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
         if(moves !== null && moves[0].file === file && moves[0].rank === rank) {
           movePiece_();
         }
-      } if(XXX.piece === 'Queen') {
-        const moves = getQueenMoves({ file: XXX.file, rank: XXX.rank }, cells);
-        if(moves !== null && Object.values(moves).map(data => `${data.file}${data.rank}`).includes(`${file}${rank}`)) {
-          movePiece_();
-        }
-      } else { 
-        //movePiece_();
+      } else if(XXX.piece === 'Queen') {
+          const moves = getQueenMoves({ file: XXX.file, rank: XXX.rank }, cells);
+          if(moves !== null && Object.values(moves.toMove).map(data => `${data.file}${data.rank}`).includes(`${file}${rank}`)) {
+            movePiece_();
+          }
+      } else if(XXX.piece === 'Rook') {
+          const moves = getRookMoves({ file: XXX.file, rank: XXX.rank }, cells);
+          if(moves !== null && Object.values(moves.toMove).map(data => `${data.file}${data.rank}`).includes(`${file}${rank}`)) {
+            movePiece_();
+          }
+      } else if(XXX.piece === 'Bishop') { 
+          const moves = getBishopMoves({ file: XXX.file, rank: XXX.rank }, cells);
+          if(moves !== null && Object.values(moves.toMove).map(data => `${data.file}${data.rank}`).includes(`${file}${rank}`)) {
+            movePiece_();
+          }
       }
     };
   };
@@ -66,7 +75,14 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
       className={ className }
     >
       { YYY.hasPiece === true ? <PieceRenderer file={ file } rank={ rank } isSelected={ isSelected } /> : <></> }
-      { YYY.showMove && <span className='w-3 h-3 bg-slate-800 opacity-50 rounded-full'></span> }
+      { YYY.showMove ? <span className='w-3 h-3 bg-slate-800 opacity-50 rounded-full'></span> : <></> }
+      { false &&
+        <>
+        <span className='absolute top-0 left-0 text-xs antialiased font-thin'>{ file }</span>
+        <span className='absolute bottom-0 right-0 text-xs antialiased font-thin'>{ rank  }</span>
+        </>
+      }
+      
     </p>
   );
 };

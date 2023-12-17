@@ -26,3 +26,8 @@ export type InitialState<P extends Types.PieceVariant> = {
     selectedCell: SelectedCell<P>, 
     stage: Stage,
 };
+
+export type possibleMoves = {
+    toMove: Types.Cell[],
+    toAttack: Types.Cell[],
+};
