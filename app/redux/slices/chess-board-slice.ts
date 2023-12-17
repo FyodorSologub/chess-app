@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { File, Rank, Files, Ranks, Cells, Cell, SelectedCell, InitialState, PieceMoveData, PieceVariant } from '@/app/lib/types/index';
 import { FILES_DEFAULT, RANKS_DEFAULT, CELLS_DEFAULT, SELECTED_CELL, DEFAULT_STAGE } from '@/app/lib/constants/index';
-import { getBishopMoves, getPawnMoves, getQueenMoves, getRookMoves } from '@/app/lib/utils/index';
+import { getBishopMoves, getKnightMoves, getPawnMoves, getQueenMoves, getRookMoves } from '@/app/lib/utils/index';
 
 const initialState : InitialState<PieceVariant> = {
     files: FILES_DEFAULT,
@@ -67,6 +67,12 @@ const selectCell = ( state: InitialState<PieceVariant>, action: PayloadAction<Ce
                     }
                 } else if (cellData.piece === 'Bishop') {
                     const moves = getBishopMoves({ file: action.payload.file, rank: action.payload.rank }, state.cells);
+                    if (moves !== null) {
+                        moves.toMove.forEach(cell => state.cells[`${cell.file}${cell.rank}`]['showMove'] = true);
+                        moves.toAttack.forEach(cell => state.cells[`${cell.file}${cell.rank}`].legitPlaceToAttack = true);
+                    }
+                } else if (cellData.piece === 'Knight') {
+                    const moves = getKnightMoves({ file: action.payload.file, rank: action.payload.rank }, state.cells);
                     if (moves !== null) {
                         moves.toMove.forEach(cell => state.cells[`${cell.file}${cell.rank}`]['showMove'] = true);
                         moves.toAttack.forEach(cell => state.cells[`${cell.file}${cell.rank}`].legitPlaceToAttack = true);
