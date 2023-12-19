@@ -37,7 +37,7 @@ export const getVerticalMoves = <P extends PieceVariant>(initialPosition : Cell,
     const moves : Cell[] = [];
     const movesToAttack : Cell[] = [];
 
-    console.log(movesToAttack)
+    //console.log(movesToAttack)
 
     for (let i = RANK_VALUES.indexOf(initialPosition.rank); i < RANK_VALUES.length; i++) { 
           //console.log(`${initialPosition.file}${RANK_VALUES[i]}`);
@@ -56,7 +56,7 @@ export const getVerticalMoves = <P extends PieceVariant>(initialPosition : Cell,
          };
     };
 
-    console.log(movesToAttack)
+    //console.log(movesToAttack)
 
     for (let i = RANK_VALUES.indexOf(initialPosition.rank); i >= 0; i--) { 
      //console.log(`${initialPosition.file}${RANK_VALUES[i]}`);
@@ -79,6 +79,9 @@ export const getVerticalMoves = <P extends PieceVariant>(initialPosition : Cell,
 export const getDiagonalMoves = <P extends PieceVariant>(initialPosition : Cell, cells : Cells<P>) : possibleMoves => {
     const moves : Cell[] = [];
     const movesToAttack : Cell[] = [];
+
+    const initialCell = cells[`${initialPosition.file}${initialPosition.rank}`];
+    //console.log(initialCell.hasPiece, initialCell.piece, cells)
 
     // diagonal
     for(let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) {

@@ -34,6 +34,7 @@ const handleMovePiece = ( state : InitialState<PieceVariant>, action: PayloadAct
 };
 
 const selectCell = ( state: InitialState<PieceVariant>, action: PayloadAction<Cell> ) : void => {
+    if(state.cells[`${action.payload.file}${action.payload.rank}`].hasPiece === false) return;
     switch(state.selectedCell.file === action.payload.file && state.selectedCell.rank === action.payload.rank && state.selectedCell.noCellSelected === false) {
         case true:
             state.selectedCell.noCellSelected = true;
