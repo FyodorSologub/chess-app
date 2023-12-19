@@ -5,3 +5,4 @@ export * from './moves/rook';
 export * from './moves/bishop';
 export * from './moves/queen';
 export * from './moves/knight';
+export * from './moves/king';
