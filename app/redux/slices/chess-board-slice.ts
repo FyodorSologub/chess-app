@@ -31,6 +31,7 @@ const handleMovePiece = ( state : InitialState<PieceVariant>, action: PayloadAct
     state.selectedCell.noCellSelected = true;
     state.stage = 'default';
     Object.keys(state.cells).forEach(key => state.cells[`${key[0] as File}${key[1] as Rank}`].showMove = false);
+    Object.keys(state.cells).forEach(key => state.cells[`${key[0] as File}${key[1] as Rank}`].legitPlaceToAttack = false);
 };
 
 const selectCell = ( state: InitialState<PieceVariant>, action: PayloadAction<Cell> ) : void => {
