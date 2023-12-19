@@ -85,57 +85,66 @@ export const getDiagonalMoves = <P extends PieceVariant>(initialPosition : Cell,
 
     // diagonal
     for(let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) {
-         if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-              if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === false ) {
-                moves.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank });
-              } else {
-               if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
-                    movesToAttack.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank });
-               };
-               break;
-              }
-         };
+     if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`]) {
+          if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === false ) {
+                 moves.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank });
+               } else {
+                if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
+                     movesToAttack.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank });
+                };
+                break;
+               }
+          };
+     }
+         
     };
     for(let i = FILE_VALUES.indexOf(initialPosition.file); i >= 0; i--) {
-         if(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i) >= 1) {
-              if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-                   if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === false) {
-                    moves.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank })
-                   } else {
-                         if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
-                              movesToAttack.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank });
-                         };
-                         break;
-                   }
-              }
-         }
+     if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`]) {
+          if(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i) >= 1) {
+               if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+                    if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === false) {
+                     moves.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank })
+                    } else {
+                          if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
+                               movesToAttack.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank) - (FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank });
+                          };
+                          break;
+                    }
+               }
+          }
+     }
     };
 
     for(let i = FILE_VALUES.indexOf(initialPosition.file); i >= 0; i--) {
-         if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-              if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === false ) {
-                moves.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank});
-              } else {
-                    if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
-                         movesToAttack.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank});
-                    };
-                    break;
-              }
-         };
+     if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`]) {
+          if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+               if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === false ) {
+                 moves.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank});
+               } else {
+                     if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
+                          movesToAttack.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)+(FILE_VALUES.indexOf(initialPosition.file)-i)) as Rank});
+                     };
+                     break;
+               }
+          };
+     }
     };
     for(let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) {
-         if(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file)) >= 1) {
-              if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
-                   if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === false ) {
-                    moves.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank});
-                   } else {
-                         if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
-                              movesToAttack.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank});
-                         };
-                         break;
-                   }
-              };
-         };
+     if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`]) {
+          if(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file)) >= 1) {
+               if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
+                    if( cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === false ) {
+                     moves.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank});
+                    } else {
+                          if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
+                               movesToAttack.push({ file: FILE_VALUES[i], rank: String(Number(initialPosition.rank)-(i-FILE_VALUES.indexOf(initialPosition.file))) as Rank});
+                          };
+                          break;
+                    }
+               };
+          };
+     }
     };
     
     return { toMove: moves, toAttack: movesToAttack };
