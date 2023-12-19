@@ -37,18 +37,12 @@ export const getVerticalMoves = <P extends PieceVariant>(initialPosition : Cell,
     const moves : Cell[] = [];
     const movesToAttack : Cell[] = [];
 
-    //console.log(movesToAttack)
-
     for (let i = RANK_VALUES.indexOf(initialPosition.rank); i < RANK_VALUES.length; i++) { 
-          //console.log(`${initialPosition.file}${RANK_VALUES[i]}`);
          if(`${initialPosition.file}${RANK_VALUES[i]}` !== `${initialPosition.file}${initialPosition.rank}`) {
-               //console.log(cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece, `${initialPosition.file}${RANK_VALUES[i]}`,  cells[`${initialPosition.file}${RANK_VALUES[i]}`].piece)
               if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece === false ) {
                 moves.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
               } else {
-               //console.log(`${initialPosition.file}${RANK_VALUES[i]}`, cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece === true && cells[`${initialPosition.file}${RANK_VALUES[i]}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor)
                     if(cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece === true && cells[`${initialPosition.file}${RANK_VALUES[i]}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
-                         //console.log(`${initialPosition.file}${RANK_VALUES[i]}`);
                          movesToAttack.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
                     };
                     break;
@@ -56,15 +50,11 @@ export const getVerticalMoves = <P extends PieceVariant>(initialPosition : Cell,
          };
     };
 
-    //console.log(movesToAttack)
-
     for (let i = RANK_VALUES.indexOf(initialPosition.rank); i >= 0; i--) { 
-     //console.log(`${initialPosition.file}${RANK_VALUES[i]}`);
          if(`${initialPosition.file}${RANK_VALUES[i]}` !== `${initialPosition.file}${initialPosition.rank}`) {
               if( cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece === false ) {
                 moves.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
               } else {
-               //console.log(`${initialPosition.file}${RANK_VALUES[i]}`, cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece === true && cells[`${initialPosition.file}${RANK_VALUES[i]}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor)
                     if(cells[`${initialPosition.file}${RANK_VALUES[i]}`].hasPiece === true && cells[`${initialPosition.file}${RANK_VALUES[i]}`].pieceColor !== cells[`${initialPosition.file}${initialPosition.rank}`].pieceColor) {
                          movesToAttack.push({ file: initialPosition.file, rank: RANK_VALUES[i] });
                     };
@@ -81,9 +71,7 @@ export const getDiagonalMoves = <P extends PieceVariant>(initialPosition : Cell,
     const movesToAttack : Cell[] = [];
 
     const initialCell = cells[`${initialPosition.file}${initialPosition.rank}`];
-    //console.log(initialCell.hasPiece, initialCell.piece, cells)
 
-    // diagonal
     for(let i = FILE_VALUES.indexOf(initialPosition.file); i < FILE_VALUES.length; i++) {
      if(cells[`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}`]) {
           if(`${FILE_VALUES[i]}${String(Number(initialPosition.rank) + (i - FILE_VALUES.indexOf(initialPosition.file))) as Rank}` !== `${initialPosition.file}${initialPosition.rank}`) {
