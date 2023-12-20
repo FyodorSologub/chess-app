@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.HTMLProps<HTMLParagraphElement>): JSX.Element => {
   //const isSelected = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].isSelected);
   const color = useAppSelector(state => state.chessBoardReducer.cells[`${file}${rank}`].color);
+  const pieces = useAppSelector(state => state.chessBoardReducer.pieces);
   const selectedCellRank = useAppSelector(state => state.chessBoardReducer.selectedCell.rank);
   const selectedCellFile = useAppSelector(state => state.chessBoardReducer.selectedCell.file);
   const noCellSelected = useAppSelector(state => state.chessBoardReducer.selectedCell.noCellSelected);
@@ -40,8 +41,8 @@ const ChessCell = ({ file, rank, ...rest }: { file: File; rank: Rank } & React.H
     //console.log(stage === 'moving', cellHasNotFigure,  XXX.piece !== null && XXX.file !== null && XXX.rank !== null && XXX.pieceColor !== null)
     if(stage === 'moving' && cellHasNotFigure && XXX.file !== undefined && XXX.rank !== undefined && XXX.pieceColor !== undefined) {
       if(XXX.piece === 'Pawn') {
-        const moves = getPawnMoves({ file: XXX.file, rank: XXX.rank }, XXX.piece, XXX.pieceColor, cells);
-        if(moves !== null && moves[0].file === file && moves[0].rank === rank) {
+        const moves = getPawnMoves({ file: XXX.file, rank: XXX.rank }, XXX.piece, XXX.pieceColor, cells, pieces);
+        if(moves !== null && Object.values(moves.toMove).map(data => `${data.file}${data.rank}`).includes(`${file}${rank}`)) {
           movePiece_();
         }
       } else if(XXX.piece === 'Queen') {

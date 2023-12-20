@@ -9,8 +9,8 @@ export type PieceId = {
 };
 
 export type PieceData = { 
-    readonly type: PieceVariant, readonly color: Types.Color, 
-    file: Types.File, rank: Types.Rank, isDeposed: boolean 
+    readonly type: PieceVariant, readonly color: Types.Color, moveNum: number,
+    file?: Types.File, rank?: Types.Rank, isDeposed: boolean 
 };
 
 export type Piece<P extends PieceVariant> = { 
