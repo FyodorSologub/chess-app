@@ -30,7 +30,7 @@ export const getPawnMoves = <P extends PieceVariant>( position : Cell, piece: Pi
                if(cells[`${FILE_VALUES[FILE_VALUES.indexOf(position.file)-1]}${String(Number(position.rank)-1) as Rank}`] && cells[`${FILE_VALUES[FILE_VALUES.indexOf(position.file)-1]}${String(Number(position.rank)-1) as Rank}`].hasPiece === true && cells[`${FILE_VALUES[FILE_VALUES.indexOf(position.file)-1]}${String(Number(position.rank)-1) as Rank}`].pieceColor === 'White') {
                     movesToAttack.push({ file: FILE_VALUES[FILE_VALUES.indexOf(position.file)-1], rank: String(Number(position.rank)-1) as Rank});
                } 
-    }//
+    }
 
     if(isFirstMove) {
           if(cell.pieceColor === 'White') {
